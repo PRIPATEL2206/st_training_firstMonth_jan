@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ movie.title }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        h2 {
+            color: #555;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 20px auto;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #fff;
+            margin-bottom: 10px;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        li:hover {
+            transform: scale(1.05);
+        }
+
+        button {
+            background-color: #0066cc;
+            color: #fff;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #004080;
+        }
+    </style>
+</head>
+<body>
+    <h1>{{ movie.title }}</h1>
+    <h2>Showtimes</h2>
+    <form method="post">
+        <ul>
+            {% for showtime in movie.showtimes %}
+                <li>
+                    {{ showtime }}
+                    <button type="submit" name="showtime" value="{{ showtime }}">Book Ticket</button>
+                </li>
+            {% endfor %}
+        </ul>
+    </form>
+</body>
+</html>

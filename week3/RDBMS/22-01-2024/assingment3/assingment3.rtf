@@ -1,0 +1,639 @@
+{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Calibri;}{\f1\fnil Consolas;}}
+{\colortbl ;\red0\green128\blue0;\red0\green0\blue0;\red0\green0\blue255;\red128\green128\blue128;\red255\green0\blue255;\red255\green0\blue0;\red0\green255\blue0;}
+{\*\generator Riched20 10.0.22000}\viewkind4\uc1 
+\pard\sa200\sl276\slmult1\qc\f0\fs56\lang9 Assingment 3\par
+
+\pard\sa200\sl276\slmult1\fs32 8) Create 2 user-defined views. Also, write what is User-defined views?\par
+\cf1\f1\fs19 --1)\cf2\par
+\cf3 use\cf2  inventory_management\cf4 ;\cf2\par
+\cf3 select\cf2  \cf4 *\cf2  \cf3 from\cf2  employees\par
+\cf3 create\cf2  \cf3 view\cf2  emp_view \cf3 as\cf2  \cf3 select\cf2  eid\cf4 ,\cf2 ename\cf4 ,\cf2 Contactno\cf4 ,\cf2 join_date \cf3 from\cf2  employees \cf3 where\cf2  salary\cf4 >\cf2 50000\cf4 ;\cf2\par
+\cf3 select\cf2  \cf4 *\cf2  \cf3 from\cf2  emp_view\cf4 ;\cf2\par
+\par
+\cf3 create\cf2  \cf3 view\cf2  manager_view \cf3 as\cf2  \cf3 select\cf2  ename\cf4 ,\cf2 Contactno\cf4 ,(\cf3 select\cf2  warehouse_name \cf3 from\cf2  warehouses \cf3 where\cf2  eid\cf4 =\cf2 manager_id\cf4 )\cf3 as\cf2  warehouse_name \cf3 from\cf2  employees\par
+\cf3 select\cf2  \cf4 *\cf2  \cf3 from\cf2  manager_view\cf4 ;\cf2\par
+\par
+\cf1 --2)\cf2\par
+\cf3 use\cf2  library_management\cf4 ;\cf2\par
+\cf3 create\cf2  \cf3 view\cf2  auther_view \cf3 as\cf2  \cf3 select\cf2  \cf4 *\cf2  \cf4 ,(\cf3 select\cf2  \cf5 COUNT\cf4 (\cf2 1\cf4 )\cf2  \cf3 from\cf2  Book_Table \cf3 where\cf2  author_id\cf4 =\cf2 Author_Table\cf4 .\cf2 author_id  \cf4 )\cf2 num_of_books  \cf3 from\cf2  Author_Table\par
+\cf3 select\cf2  \cf4 *\cf2  \cf3 from\cf2  auther_view\par
+\par
+\cf3 create\cf2  \cf3 view\cf2  genre_view \cf3 as\cf2  \cf3 select\cf2  \cf3 name\cf4 ,(\cf3 select\cf2  \cf5 COUNT\cf4 (\cf2 1\cf4 )\cf2  \cf3 from\cf2  Book_Table \cf3 where\cf2  genre_id\cf4 =\cf2 Genre_Table\cf4 .\cf2 genre_id\cf4 )\cf2 no_of_books  \cf3 from\cf2  Genre_Table\par
+\cf3 select\cf2  \cf4 *\cf2  \cf3 from\cf2  genre_view\cf4 ;\cf2\par
+\par
+\cf1 --3)\cf2\par
+\cf3 use\cf2  social_media\cf4 ;\cf2\par
+\cf3 create\cf2  \cf3 view\cf2  user_post \cf3 as\cf2  \cf3 select\cf2  username\cf4 ,\cf2 email_id\cf4 ,(\cf3 select\cf2  \cf5 count\cf4 (\cf2 1\cf4 )\cf2  \cf3 from\cf2  Posts \cf3 where\cf2  \cf5 user_id\cf4 =\cf2 Users\cf4 .\cf5 user_id\cf4 )\cf2 no_post \cf3 from\cf2  Users\cf4 ;\cf2\par
+\cf3 select\cf2  \cf4 *\cf2  \cf3 from\cf2  user_post\par
+\par
+\cf3 create\cf2  \cf3 view\cf2  post_view \cf3 as\cf2  \cf3 select\cf2  content\cf4 ,(\cf3 select\cf2  username \cf3 from\cf2  Users \cf3 where\cf2  \cf5 user_id\cf4 =\cf2 Posts\cf4 .\cf5 user_id\cf4 )\cf2 username\cf4 ,(\cf3 select\cf2  \cf5 count\cf4 (\cf2 1\cf4 )\cf2  \cf3 from\cf2  Comments \cf3 where\cf2  post_id\cf4 =\cf2 Posts\cf4 .\cf2 post_id\cf4 )\cf2 no_coments \cf3 from\cf2  Posts\par
+\cf3 select\cf2  \cf4 *\cf2  \cf3 from\cf2  post_view\cf4 ;\cf2\par
+\par
+\cf0\f0\fs32 9) Create 2 Scalar-valued functions (e.g. split string).\par
+\cf2\f1\fs19\par
+\cf1 -- 1)\cf2\par
+\cf3 use\cf2  inventory_management\cf4 ;\cf2\par
+\cf3 create\cf2  \cf3 function\cf2  dbo\cf4 .\cf2 getInHandSalary\par
+\cf4 (\cf2\par
+@salary \cf3 FLOAT\cf2\par
+\cf4 )\cf2\par
+\cf3 RETURNS\cf2  \cf3 FLOAT\cf2\par
+\cf3 AS\cf2\par
+\cf3 BEGIN\cf2\par
+\tab\cf3 RETURN\cf2  @salary \cf4 -\cf2  30\cf4 ;\cf2\par
+\cf3 END\cf4 ;\cf2\par
+\par
+\cf3 select\cf2  ename\cf4 ,\cf2 dbo\cf4 .\cf2 getInHandSalary\cf4 (\cf2 salary\cf4 )\cf2 inhandsalary \cf3 from\cf2  employees\par
+\par
+\cf3 create\cf2  \cf3 function\cf2  dbo\cf4 .\cf2 getDiscountAmount\cf4 (\cf2\par
+@prize \cf3 float\cf2\par
+\cf4 )\cf2\par
+\cf3 returns\cf2  \cf3 float\cf2\par
+\cf3 as\cf2\par
+\cf3 begin\cf2\par
+\tab\cf3 return\cf2  @prize\cf4 -\cf2 @prize\cf4 /\cf2 10\cf4 ;\cf2\par
+\cf3 end\cf4 ;\cf2\par
+\cf3 select\cf2  product_name\cf4 ,\cf2 dbo\cf4 .\cf2 getDiscountAmount\cf4 (\cf2 prize\cf4 )\cf2 prize \cf3 from\cf2  products\cf4 ;\cf2\par
+\par
+\par
+\cf1 --2)\cf2\par
+\cf3 use\cf2\tab library_management\cf4 ;\cf2\par
+\cf3 create\cf2  \cf3 function\cf2  dbo\cf4 .\cf2 getAge\cf4 (\cf2\par
+@dob \cf3 DATETIME\cf2\par
+\cf4 )\cf2\par
+\cf3 returns\cf2  \cf3 INT\cf2\par
+\cf3 as\cf2\par
+\cf3 begin\cf2\par
+\cf3 return\cf2  \cf5 DATEDIFF\cf4 (\cf5 YEAR\cf4 ,\cf2 @dob\cf4 ,\cf5 GETDATE\cf4 ())\cf2\par
+\cf3 end\cf4 ;\cf2\par
+\par
+\cf3 select\cf2  author_name\cf4 ,\cf2 dbo\cf4 .\cf2 getAge\cf4 (\cf2 birthday\cf4 )\cf2  \cf3 from\cf2  Author_Table\cf4 ;\cf2\par
+\par
+\cf3 create\cf2  \cf3 function\cf2  dbo\cf4 .\cf2 cusConct\cf4 (\cf2\par
+@str1 \cf3 NVARCHAR\cf4 (\cf2 50\cf4 ),\cf2\par
+@str2 \cf3 NVARCHAR\cf4 (\cf2 50\cf4 )\cf2\par
+\cf4 )\cf2\par
+\cf3 Returns\cf2  \cf3 NVARCHAR\cf4 (\cf2 100\cf4 )\cf2\par
+\cf3 as\cf2\par
+\cf3 begin\cf2\par
+\cf3 return\cf2  \cf5 CONCAT\cf4 (\cf2 @str1\cf4 ,\cf6 ' '\cf4 ,\cf2 @str2\cf4 )\cf2\par
+\cf3 end\cf4 ;\cf2\par
+\par
+\cf3 DROP\cf2  \cf3 FUNCTION\cf2  \cf3 IF\cf2  \cf4 EXISTS\cf2  dbo\cf4 .\cf2 cusConct\cf4 ;\cf2\par
+\par
+\cf3 select\cf2  dbo\cf4 .\cf2 cusConct\cf4 (\cf3 name\cf4 ,\cf3 description\cf4 )\cf2  \cf3 from\cf2  Genre_Table\par
+\par
+\cf1 --3)\cf2\par
+\cf3 use\cf2  social_media\cf4 ;\cf2\par
+\par
+\cf3 create\cf2  \cf3 function\cf2  dbo\cf4 .\cf2 cusDateDiff\par
+\cf4 (\cf2\par
+@date1 \cf3 DateTime\cf4 ,\cf2\par
+@date2 \cf3 DATETIME\cf2\par
+\cf4 )\cf2\par
+\cf3 returns\cf2  \cf3 INT\cf2\par
+\cf3 as\cf2\par
+\cf3 begin\cf2\par
+\cf3 return\cf2  \cf5 DATEDIFF\cf4 (\cf5 DAY\cf4 ,\cf2 @date1\cf4 ,\cf2 @date2\cf4 )\cf2\par
+\cf3 end\cf4 ;\cf2\par
+\par
+\cf3 select\cf2  dbo\cf4 .\cf2 cusDateDiff\cf4 ((\cf3 select\cf2  created_at \cf3 from\cf2  Posts \cf3 where\cf2  post_id\cf4 =\cf2 Likes\cf4 .\cf2 post_id\cf4 ),\cf2 liked_at\cf4 )\cf2 t\cf4 ,(\cf3 select\cf2  content \cf3 from\cf2  Posts \cf3 where\cf2  post_id\cf4 =\cf2 Likes\cf4 .\cf2 post_id\cf4 )\cf2 content \cf3 from\cf2  Likes\cf4 ;\cf2\par
+\par
+\cf3 create\cf2  \cf3 function\cf2  dbo\cf4 .\cf2 getFirstname\par
+\cf4 (\cf2\par
+@name \cf3 NVARCHAR\cf4 (\cf2 50\cf4 )\cf2\par
+\cf4 )\cf2\par
+\cf3 returns\cf2  \cf3 NVARCHAR\cf4 (\cf2 1\cf4 )\cf2\par
+\cf3 as\cf2\par
+\cf3 begin\cf2\par
+\cf3 return\cf2  \cf4 LEFT(\cf2 @name\cf4 ,\cf2 1\cf4 )\cf2\par
+\cf3 end\cf4 ;\cf2\par
+\par
+\cf3 select\cf2  dbo\cf4 .\cf2 getfirstname\cf4 (\cf2 username\cf4 ),\cf2 email_id \cf3 from\cf2  Users\par
+\cf0\f0\fs32 10) Create 5 store procedures (select, add, update, delete and full).\par
+\cf2\f1\fs19\par
+\cf1 -- 1)\cf2\par
+\cf3 use\cf2  inventory_management\cf4 ;\cf2\par
+\par
+\cf1 --add\cf2\par
+\cf3 CREATE\cf2  \cf3 PROCEDURE\cf2  addEmployee\par
+\cf4 (\cf2\par
+@ename \cf3 VARCHAR\cf4 (\cf2 50\cf4 ),\cf2\par
+@contect \cf3 VARCHAR\cf4 (\cf2 50\cf4 ),\cf2\par
+@desig \cf3 varchar\cf4 (\cf2 100\cf4 ),\cf2\par
+@salary \cf3 int\cf2\par
+\cf4 )\cf2\par
+\cf3 as\cf2\par
+\cf3 begin\cf2\par
+\cf3 insert\cf2  \cf3 into\cf2  employees\cf3  \cf4 (\cf2 ename\cf4 ,\cf2 Contactno\cf4 ,\cf2 designation\cf4 ,\cf2 salary\cf4 ,\cf2 join_date\cf4 )\cf2\par
+\cf3 values \cf4 (\cf2 @ename\cf4 ,\cf2 @contect\cf4 ,\cf2 @desig\cf4 ,\cf2 @salary\cf4 ,\cf5 GETDATE\cf4 ())\cf2\par
+\cf3 end\cf4 ;\cf2\par
+\par
+\cf3 exec\cf2  addEmployee\cf3  \cf6 'kartic'\cf4 ,\cf6 '123-456-789-0'\cf4 ,\cf6 'programer'\cf4 ,\cf6 '50000'\cf4 ;\cf2\par
+\par
+\cf1 --read\cf2\par
+\cf3 CREATE\cf2  \cf3 PROCEDURE\cf2  readAllEmployee\par
+\cf3 as\cf2\par
+\cf3 begin\cf2\par
+\cf3 select\cf2  \cf4 *\cf2  \cf3 from\cf2  employees\cf4 ;\cf2\par
+\cf3 end\cf4 ;\cf2\par
+\par
+\cf3 exec\cf2  readAllEmployee\cf4 ;\cf2\par
+\par
+\par
+\cf1 --update \cf2\par
+\cf3 CREATE\cf2  \cf3 PROCEDURE\cf2  UpdateEmployeeInfo\par
+    @eid \cf3 INT\cf4 ,\cf2\par
+    @Contactno \cf3 VARCHAR\cf4 (\cf2 50\cf4 ),\cf2\par
+    @designation \cf3 VARCHAR\cf4 (\cf2 100\cf4 ),\cf2\par
+    @salary \cf3 INT\cf4 ,\cf2\par
+    @join_date \cf3 DATE\cf2\par
+\cf3 AS\cf2\par
+\cf3 BEGIN\cf2\par
+    \cf5 UPDATE\cf2  employees\par
+    \cf3 SET\cf2  \par
+        Contactno \cf4 =\cf2  @Contactno\cf4 ,\cf2\par
+        designation \cf4 =\cf2  @designation\cf4 ,\cf2\par
+        salary \cf4 =\cf2  @salary\cf4 ,\cf2\par
+        join_date \cf4 =\cf2  @join_date\par
+    \cf3 WHERE\cf2\par
+        eid \cf4 =\cf2  @eid\cf4 ;\cf2\par
+\cf3 END\cf4 ;\cf2\par
+\cf3 exec\cf2  UpdateEmployeeInfo\cf3  \cf2 2\cf4 ,\cf6 '222-444-666-5555'\cf4 ,\cf6 'manager'\cf4 ,\cf2 65000\cf4 ,\cf6 '2022-01-15'\cf4 ;\cf2\par
+\par
+\cf1 --delete\cf2\par
+\cf3 CREATE\cf2  \cf3 PROCEDURE\cf2  DeleteEmployee\par
+    @eid \cf3 INT\cf2\par
+\cf3 AS\cf2\par
+\cf3 BEGIN\cf2\par
+    \cf3 DELETE\cf2  \cf3 FROM\cf2  employees\par
+    \cf3 WHERE\cf2\par
+        eid \cf4 =\cf2  @eid\cf4 ;\cf2\par
+\cf3 END\cf4 ;\cf2\par
+\par
+\cf3 exec\cf2  DeleteEmployee\cf3  \cf2 2 \cf4 ;\cf2\par
+\par
+\cf1 --increment salary\cf2\par
+\cf3 CREATE\cf2  \cf3 PROCEDURE\cf2  IncrementSalary\par
+\cf3 as\cf2  \par
+\cf3 begin\cf2\par
+ \cf5 update\cf2  employees\par
+ \cf3 SET\cf2  salary\cf4 =\cf2 salary\cf4 +\cf2 salary\cf4 /\cf2 20\par
+\cf3 end\cf4 ;\cf2\par
+\par
+\cf3 exec\cf2  IncrementSalary\par
+\par
+\par
+\par
+\cf1 -- 2)\cf2\par
+\cf3 use\cf2  library_management\cf4 ;\cf2\par
+\par
+\cf1 --add\cf2\par
+\cf3 CREATE\cf2  \cf3 PROCEDURE\cf2  AddMember\par
+    @member_name \cf3 VARCHAR\cf4 (\cf2 200\cf4 ),\cf2\par
+    @ending_date \cf3 DATETIME\cf4 ,\cf2\par
+    @address \cf3 VARCHAR\cf4 (\cf2 500\cf4 ),\cf2\par
+    @phone_no \cf3 VARCHAR\cf4 (\cf2 10\cf4 )\cf2\par
+\cf3 AS\cf2\par
+\cf3 BEGIN\cf2\par
+    \cf3 INSERT\cf2  \cf3 INTO\cf2  Members_Table\cf3  \cf4 (\cf2 member_name\cf4 ,\cf2  Join_Date\cf4 ,\cf2  ending_date\cf4 ,\cf2  \cf3 address\cf4 ,\cf2  phone_no\cf4 )\cf2\par
+    \cf3 VALUES \cf4 (\cf2 @member_name\cf4 ,\cf2  \cf5 GETDATE\cf4 (),\cf2  @ending_date\cf4 ,\cf2  @address\cf4 ,\cf2  @phone_no\cf4 );\cf2\par
+\cf3 END\cf4 ;\cf2\par
+\cf3 exec\cf2  AddMember\cf3  \cf6 'kartic'\cf4 ,\cf6 '3-3-2024'\cf4 ,\cf6 'address '\cf4 ,\cf6 '123-456-789-0'\cf4 ;\cf2\par
+\par
+\cf1 --read\cf2\par
+\cf3 CREATE\cf2  \cf3 PROCEDURE\cf2  GetMemberInfo\par
+    @member_id \cf3 INT\cf2\par
+\cf3 AS\cf2\par
+\cf3 BEGIN\cf2\par
+    \cf3 SELECT\cf2  \cf4 *\cf2  \cf3 FROM\cf2  Members_Table \cf3 WHERE\cf2  member_id \cf4 =\cf2  @member_id\cf4 ;\cf2\par
+\cf3 END\cf4 ;\cf2\par
+\cf3 exec\cf2  GetMemberInfo\cf3  \cf2 1\cf4 ;\cf2\par
+\par
+\par
+\cf1 --update \cf2\par
+\cf3 CREATE\cf2  \cf3 PROCEDURE\cf2  UpdateMember\par
+    @member_id \cf3 INT\cf4 ,\cf2\par
+    @member_name \cf3 VARCHAR\cf4 (\cf2 200\cf4 ),\cf2\par
+    @Join_Date \cf3 DATETIME\cf4 ,\cf2\par
+    @ending_date \cf3 DATETIME\cf4 ,\cf2\par
+    @address \cf3 VARCHAR\cf4 (\cf2 500\cf4 ),\cf2\par
+    @phone_no \cf3 VARCHAR\cf4 (\cf2 10\cf4 )\cf2\par
+\cf3 AS\cf2\par
+\cf3 BEGIN\cf2\par
+    \cf5 UPDATE\cf2  Members_Table\par
+    \cf3 SET\cf2\par
+        member_name \cf4 =\cf2  @member_name\cf4 ,\cf2\par
+        Join_Date \cf4 =\cf2  @Join_Date\cf4 ,\cf2\par
+        ending_date \cf4 =\cf2  @ending_date\cf4 ,\cf2\par
+        \cf3 address\cf2  \cf4 =\cf2  @address\cf4 ,\cf2\par
+        phone_no \cf4 =\cf2  @phone_no\par
+    \cf3 WHERE\cf2\par
+        member_id \cf4 =\cf2  @member_id\cf4 ;\cf2\par
+\cf3 END\cf4 ;\cf2\par
+\cf3 exec\cf2  UpdateMember\cf3  \cf2 1\cf4 ,\cf6 'kartic'\cf4 ,\cf6 '2-2-2023'\cf4 ,\cf6 '3-2-2024'\cf4 ,\cf6 'adress2'\cf4 ,\cf6 '123-456-789-0'\cf4 ;\cf2\par
+\par
+\cf1 --delete\cf2\par
+\cf3 CREATE\cf2  \cf3 PROCEDURE\cf2  DeleteMember\par
+    @member_id \cf3 INT\cf2\par
+\cf3 AS\cf2\par
+\cf3 BEGIN\cf2\par
+    \cf3 DELETE\cf2  \cf3 FROM\cf2  Members_Table \cf3 WHERE\cf2  member_id \cf4 =\cf2  @member_id\cf4 ;\cf2\par
+\cf3 END\cf4 ;\cf2\par
+\par
+\cf3 exec\cf2  DeleteEmployee\cf3  \cf2 2 \cf4 ;\cf2\par
+\par
+\cf1 --extend ebnding date\cf2\par
+\cf3 CREATE\cf2  \cf3 PROCEDURE\cf2  extendEbndingDate\par
+\cf4 (\cf2\par
+@member_id \cf3 INT\cf4 ,\cf2\par
+@days \cf3 INT\cf2\par
+\cf4 )\cf2\par
+\cf3 as\cf2  \par
+\cf3 begin\cf2\par
+ \cf5 update\cf2  Members_Table\par
+ \cf3 SET\cf2  ending_date\cf4 =\cf5 DATEADD\cf4 (\cf5 DAY\cf4 ,\cf2 @days\cf4 ,\cf2 ending_date\cf4 )\cf2\par
+ \cf3 where\cf2  member_id\cf4 =\cf2 @member_id\par
+\cf3 end\cf4 ;\cf2\par
+\par
+\cf3 exec\cf2  extendEbndingDate\cf3  \cf2 1\cf4 ,\cf2  30\cf4 ;\cf2\par
+\par
+\cf1 --3)\cf2\par
+\cf3 use\cf2  social_media\cf4 ;\cf2\par
+\par
+\cf1 -- add\cf2\par
+\cf3 CREATE\cf2  \cf3 PROCEDURE\cf2  AddUser\par
+    @username \cf3 VARCHAR\cf4 (\cf2 50\cf4 ),\cf2\par
+    @email_id \cf3 VARCHAR\cf4 (\cf2 100\cf4 ),\cf2\par
+    @password \cf3 VARCHAR\cf4 (\cf2 255\cf4 ),\cf2\par
+    @profile_picture \cf3 VARBINARY\cf4 (\cf5 MAX\cf4 ),\cf2\par
+    @is_active \cf3 BIT\cf2\par
+\cf3 AS\cf2\par
+\cf3 BEGIN\cf2\par
+    \cf3 INSERT\cf2  \cf3 INTO\cf2  Users\cf3  \cf4 (\cf2 username\cf4 ,\cf2  email_id\cf4 ,\cf2  \cf3 password\cf4 ,\cf2  profile_picture\cf4 ,\cf2  is_active\cf4 )\cf2\par
+    \cf3 VALUES \cf4 (\cf2 @username\cf4 ,\cf2  @email_id\cf4 ,\cf2  @password\cf4 ,\cf2  @profile_picture\cf4 ,\cf2  @is_active\cf4 );\cf2\par
+\cf3 END\cf4 ;\cf2\par
+\par
+\cf1 --get user\cf2\par
+\cf3 CREATE\cf2  \cf3 PROCEDURE\cf2  GetUser\par
+    @user_id \cf3 INT\cf2\par
+\cf3 AS\cf2\par
+\cf3 BEGIN\cf2\par
+    \cf3 SELECT\cf2  \cf4 *\cf2  \cf3 FROM\cf2  Users \cf3 WHERE\cf2  \cf5 user_id\cf2  \cf4 =\cf2  @user_id\cf4 ;\cf2\par
+\cf3 END\cf4 ;\cf2\par
+\par
+\cf1 --update user\cf2\par
+\cf3 CREATE\cf2  \cf3 PROCEDURE\cf2  UpdateUser\par
+    @user_id \cf3 INT\cf4 ,\cf2\par
+    @username \cf3 VARCHAR\cf4 (\cf2 50\cf4 ),\cf2\par
+    @email_id \cf3 VARCHAR\cf4 (\cf2 100\cf4 ),\cf2\par
+    @password \cf3 VARCHAR\cf4 (\cf2 255\cf4 ),\cf2\par
+    @profile_picture \cf3 VARBINARY\cf4 (\cf5 MAX\cf4 ),\cf2\par
+    @is_active \cf3 BIT\cf2\par
+\cf3 AS\cf2\par
+\cf3 BEGIN\cf2\par
+    \cf5 UPDATE\cf2  Users\par
+    \cf3 SET\cf2\par
+        username \cf4 =\cf2  @username\cf4 ,\cf2\par
+        email_id \cf4 =\cf2  @email_id\cf4 ,\cf2\par
+        \cf3 password\cf2  \cf4 =\cf2  @password\cf4 ,\cf2\par
+        profile_picture \cf4 =\cf2  @profile_picture\cf4 ,\cf2\par
+        is_active \cf4 =\cf2  @is_active\par
+    \cf3 WHERE\cf2\par
+        \cf5 user_id\cf2  \cf4 =\cf2  @user_id\cf4 ;\cf2\par
+\cf3 END\cf4 ;\cf2\par
+\par
+\cf1 --delete\cf2\par
+\cf3 CREATE\cf2  \cf3 PROCEDURE\cf2  DeleteUser\par
+    @user_id \cf3 INT\cf2\par
+\cf3 AS\cf2\par
+\cf3 BEGIN\cf2\par
+    \cf3 DELETE\cf2  \cf3 FROM\cf2  Users \cf3 WHERE\cf2  \cf5 user_id\cf2  \cf4 =\cf2  @user_id\cf4 ;\cf2\par
+\cf3 END\cf4 ;\cf2\par
+\par
+\cf1 --get latest posts\cf2\par
+\cf3 CREATE\cf2  \cf3 PROCEDURE\cf2  GetLatestUserPosts\par
+    @user_id \cf3 INT\cf4 ,\cf2\par
+    @num_posts \cf3 INT\cf2\par
+\cf3 AS\cf2\par
+\cf3 BEGIN\cf2\par
+    \cf3 SELECT\cf2  \cf3 TOP\cf4 (\cf2 @num_posts\cf4 )\cf2  post_id\cf4 ,\cf2  \cf5 user_id\cf4 ,\cf2  content\cf4 ,\cf2  created_at\cf4 ,\cf2  media_type\cf4 ,\cf2  media_url\par
+    \cf3 FROM\cf2  Posts\par
+    \cf3 WHERE\cf2  \cf5 user_id\cf2  \cf4 =\cf2  @user_id\par
+    \cf3 ORDER\cf2  \cf3 BY\cf2  created_at \cf3 DESC\cf4 ;\cf2\par
+\cf3 END\cf4 ;\cf2\par
+\cf0\f0\fs32 11) Create 2 non-clustered indexes.\par
+\cf1\f1\fs19 -- 1)\cf2\par
+\cf3 use\cf2  inventory_management\cf4 ;\cf2\par
+\cf3 create\cf2  \cf3 nonclustered\cf2  \cf3 index\cf2  in_employeeIndex\par
+\cf3 on\cf2  employees\cf4 (\cf2 ename\cf4 )\cf2\par
+\par
+\cf3 create\cf2  \cf3 nonclustered\cf2  \cf3 index\cf2  in_productIndex\par
+\cf3 on\cf2  products\cf4 (\cf2 product_name\cf4 ,\cf2 prize\cf4 )\cf2\par
+\par
+\par
+\cf1 --2)\cf2\par
+\cf3 use\cf2  library_management\cf4 ;\cf2\par
+\cf3 create\cf2  \cf3 nonclustered\cf2  \cf3 index\cf2  li_autherIndex\par
+\cf3 on\cf2  Author_Table\cf4 (\cf2 author_name\cf4 )\cf2\par
+\par
+\cf3 create\cf2  \cf3 nonclustered\cf2  \cf3 index\cf2  li_bookIndex\par
+\cf3 on\cf2  Book_Table\cf4 (\cf2 title\cf4 ,\cf2 author_id\cf4 )\cf2\par
+\par
+\cf1 --3)\cf2\par
+\cf3 use\cf2  social_media\cf4 ;\cf2\par
+\cf3 create\cf2  \cf3 nonclustered\cf2  \cf3 index\cf2  so_userIndex\par
+\cf3 on\cf2  Users\cf4 (\cf2 username\cf4 ,\cf2 email_id\cf4 )\cf2\par
+\par
+\cf3 create\cf2  \cf3 nonclustered\cf2  \cf3 index\cf2  so_postIndex\par
+\cf3 on\cf2  Posts\cf4 (\cf5 user_id\cf4 ,\cf2 content\cf4 )\cf2\par
+\cf0\f0\fs32 12) Create Before and After triggers for insert, update and delete operations.\par
+\cf2\f1\fs19\par
+\cf1 -- 1)\cf2\par
+\cf3 use\cf2  inventory_management\par
+\par
+\cf1 -- BEFORE INSERT trigger\cf2\par
+\cf3 CREATE\cf2  \cf3 TRIGGER\cf2  before_insert_user\par
+\cf3 ON\cf2  employees\par
+\cf3 for\cf2  \cf3 INSERT\cf2\par
+\cf3 AS\cf2\par
+\cf3 BEGIN\cf2\par
+\tab\cf3 PRINT\cf2  \cf6 'BEFORE INSERT EMPLOYEE Trigger executed'\cf4 ;\cf2\par
+\par
+\cf3 END\cf4 ;\cf2\par
+\cf3 drop\cf2  \cf3 trigger\cf2  before_insert_user\par
+\par
+\cf1 -- Create an AFTER INSERT trigger\cf2\par
+\cf3 CREATE\cf2  \cf3 TRIGGER\cf2  after_insert_user\par
+\cf3 ON\cf2  employees\par
+\cf3 AFTER\cf2  \cf3 INSERT\cf2\par
+\cf3 AS\cf2\par
+\cf3 BEGIN\cf2\par
+    \cf3 PRINT\cf2  \cf6 'AFTER INSERT EMPLOYEE Trigger executed'\cf4 ;\cf2\par
+\cf3 END\cf4 ;\cf2\par
+\par
+\par
+\par
+\cf1 -- Create a BEFORE UPDATE trigger\cf2\par
+\cf3 CREATE\cf2  \cf3 TRIGGER\cf2  BeforeUpdateEmp\par
+\cf3 ON\cf2  employees\par
+\cf3 FOR\cf2  \cf5 UPDATE\cf2\par
+\cf3 AS\cf2\par
+\cf3 BEGIN\cf2\par
+  \cf3 PRINT\cf2  \cf6 'AFTER UPDATE EMPLOYEE Trigger executed'\cf4 ;\cf2\par
+\cf3 END\cf4 ;\cf2\par
+\par
+\par
+\cf1 -- Create an AFTER UPDATE trigger\cf2\par
+\cf3 CREATE\cf2  \cf3 TRIGGER\cf2  trgAfterUpdateEmp\par
+\cf3 ON\cf2  employees\par
+\cf3 AFTER\cf2  \cf5 UPDATE\cf2\par
+\cf3 AS\cf2\par
+\cf3 BEGIN\cf2\par
+    \cf3 PRINT\cf2  \cf6 'AFTER UPDATE EMPLOYEE Trigger executed'\cf4 ;\cf2\par
+\cf3 END\cf4 ;\cf2\par
+\par
+\cf1 -- Create a BEFORE DELETE trigger\cf2\par
+\cf3 CREATE\cf2  \cf3 TRIGGER\cf2  trgBeforeDeleteEmp\par
+\cf3 ON\cf2  employees\par
+\cf3 FOR\cf2  \cf3 DELETE\cf2\par
+\cf3 AS\cf2\par
+\cf3 BEGIN\cf2\par
+\tab\cf3 PRINT\cf2  \cf6 'AFTER DELETE EMPLOYEE Trigger executed'\cf4 ;\cf2\par
+\cf3 END\cf4 ;\cf2\par
+\par
+\par
+\cf1 -- Create an AFTER DELETE trigger\cf2\par
+\cf3 CREATE\cf2  \cf3 TRIGGER\cf2  trgAfterDeleteEmp\par
+\cf3 ON\cf2  employees\par
+\cf3 AFTER\cf2  \cf3 DELETE\cf2\par
+\cf3 AS\cf2\par
+\cf3 BEGIN\cf2\par
+    \cf3 PRINT\cf2  \cf6 'AFTER DELETE EMPLOYEE Trigger executed'\cf4 ;\cf2\par
+\cf3 END\cf4 ;\cf2\par
+\par
+\par
+\par
+\cf1 -- 2)\cf2\par
+\cf3 use\cf2  library_management\cf4 ;\cf2\par
+\par
+\cf1 -- BEFORE INSERT trigger\cf2\par
+\cf3 CREATE\cf2  \cf3 TRIGGER\cf2  before_insert_auther\par
+\cf3 ON\cf2  Author_Table\par
+\cf3 for\cf2  \cf3 INSERT\cf2\par
+\cf3 AS\cf2\par
+\cf3 BEGIN\cf2\par
+    \cf3 PRINT\cf2  \cf6 'BEFORE INSERT Author Trigger executed'\cf4 ;\cf2\par
+\cf3 END\cf4 ;\cf2\par
+\par
+\par
+\cf1 -- Create an AFTER INSERT trigger\cf2\par
+\cf3 CREATE\cf2  \cf3 TRIGGER\cf2  after_insert_Author\par
+\cf3 ON\cf2  Author_Table\par
+\cf3 AFTER\cf2  \cf3 INSERT\cf2\par
+\cf3 AS\cf2\par
+\cf3 BEGIN\cf2\par
+    \cf3 PRINT\cf2  \cf6 'AFTER INSERT Author Trigger executed'\cf4 ;\cf2\par
+\cf3 END\cf4 ;\cf2\par
+\par
+\cf1 -- Create a BEFORE UPDATE trigger\cf2\par
+\cf3 CREATE\cf2  \cf3 TRIGGER\cf2  BeforeUpdateAuthor\par
+\cf3 ON\cf2  Author_Table\par
+\cf3 FOR\cf2  \cf5 UPDATE\cf2\par
+\cf3 AS\cf2\par
+\cf3 BEGIN\cf2\par
+  \cf3 PRINT\cf2  \cf6 'AFTER UPDATE Author Trigger executed'\cf4 ;\cf2\par
+\cf3 END\cf4 ;\cf2\par
+\par
+\cf1 -- Create an AFTER UPDATE trigger\cf2\par
+\cf3 CREATE\cf2  \cf3 TRIGGER\cf2  trgAfterUpdateAuthor\par
+\cf3 ON\cf2  Author_Table\par
+\cf3 AFTER\cf2  \cf5 UPDATE\cf2\par
+\cf3 AS\cf2\par
+\cf3 BEGIN\cf2\par
+    \cf3 PRINT\cf2  \cf6 'AFTER UPDATE Author Trigger executed'\cf4 ;\cf2\par
+\cf3 END\cf4 ;\cf2\par
+\par
+\cf1 -- Create a BEFORE DELETE trigger\cf2\par
+\cf3 CREATE\cf2  \cf3 TRIGGER\cf2  trgBeforeDeleteAuthor\par
+\cf3 ON\cf2  Author_Table\par
+\cf3 for\cf2  \cf3 DELETE\cf2\par
+\cf3 AS\cf2\par
+\cf3 BEGIN\cf2\par
+\tab\cf3 PRINT\cf2  \cf6 'AFTER DELETE Author Trigger executed'\cf4 ;\cf2\par
+\cf3 END\cf4 ;\cf2\par
+\par
+\par
+\cf1 -- Create an AFTER DELETE trigger\cf2\par
+\cf3 CREATE\cf2  \cf3 TRIGGER\cf2  trgAfterDeleteAuthor\par
+\cf3 ON\cf2  Author_Table\par
+\cf3 AFTER\cf2  \cf3 DELETE\cf2\par
+\cf3 AS\cf2\par
+\cf3 BEGIN\cf2\par
+    \cf3 PRINT\cf2  \cf6 'AFTER DELETE Author Trigger executed'\cf4 ;\cf2\par
+\cf3 END\cf4 ;\cf2\par
+\par
+\par
+\cf1 -- 3)\cf2\par
+\cf3 use\cf2  social_media\cf4 ;\cf2\par
+\par
+\cf1 -- BEFORE INSERT trigger\cf2\par
+\cf3 CREATE\cf2  \cf3 TRIGGER\cf2  before_insert_users\par
+\cf3 ON\cf2  Users\par
+\cf3 instead\cf2  \cf3 of\cf2  \cf3 INSERT\cf2\par
+\cf3 AS\cf2\par
+\cf3 BEGIN\cf2\par
+    \cf3 PRINT\cf2  \cf6 'BEFORE INSERT users Trigger executed'\cf4 ;\cf2\par
+\cf3 END\cf4 ;\cf2\par
+\par
+\cf1 -- Create an AFTER INSERT trigger\cf2\par
+\cf3 CREATE\cf2  \cf3 TRIGGER\cf2  after_insert_users\par
+\cf3 ON\cf2  Users\par
+\cf3 AFTER\cf2  \cf3 INSERT\cf2\par
+\cf3 AS\cf2\par
+\cf3 BEGIN\cf2\par
+    \cf3 PRINT\cf2  \cf6 'AFTER INSERT users Trigger executed'\cf4 ;\cf2\par
+\cf3 END\cf4 ;\cf2\par
+\par
+\cf1 -- Create a BEFORE UPDATE trigger\cf2\par
+\cf3 CREATE\cf2  \cf3 TRIGGER\cf2  BeforeUpdateusers\par
+\cf3 ON\cf2  Users\par
+\cf3 FOR\cf2  \cf5 UPDATE\cf2\par
+\cf3 AS\cf2\par
+\cf3 BEGIN\cf2\par
+  \cf3 PRINT\cf2  \cf6 'AFTER UPDATE users Trigger executed'\cf4 ;\cf2\par
+\cf3 END\cf4 ;\cf2\par
+\par
+\par
+\cf1 -- Create an AFTER UPDATE trigger\cf2\par
+\cf3 CREATE\cf2  \cf3 TRIGGER\cf2  trgAfterUpdateusers\par
+\cf3 ON\cf2  Users\par
+\cf3 AFTER\cf2  \cf5 UPDATE\cf2\par
+\cf3 AS\cf2\par
+\cf3 BEGIN\cf2\par
+    \cf3 PRINT\cf2  \cf6 'AFTER UPDATE users Trigger executed'\cf4 ;\cf2\par
+\cf3 END\cf4 ;\cf2\par
+\par
+\par
+\cf1 -- Create a BEFORE DELETE trigger\cf2\par
+\cf3 CREATE\cf2  \cf3 TRIGGER\cf2  trgBeforeDeleteusers\par
+\cf3 ON\cf2  Users\par
+\cf3 for\cf2  \cf3 DELETE\cf2\par
+\cf3 AS\cf2\par
+\cf3 BEGIN\cf2\par
+\tab\cf3 PRINT\cf2  \cf6 'AFTER DELETE users Trigger executed'\cf4 ;\cf2\par
+\cf3 END\cf4 ;\cf2\par
+\par
+\cf3 drop\cf2  \cf3 trigger\cf2  trgBeforeDeleteusers\cf4 ;\cf2\par
+\cf1 -- Create an AFTER DELETE trigger\cf2\par
+\cf3 CREATE\cf2  \cf3 TRIGGER\cf2  trgAfterDeleteusers\par
+\cf3 ON\cf2  Users\par
+\cf3 AFTER\cf2  \cf3 DELETE\cf2\par
+\cf3 AS\cf2\par
+\cf3 BEGIN\cf2\par
+    \cf3 PRINT\cf2  \cf6 'AFTER DELETE users Trigger executed'\cf4 ;\cf2\par
+\cf3 END\cf4 ;\cf2\par
+\par
+\cf0\f0\fs32 13) Write SQL queries for Union and Union All.\par
+\cf2\f1\fs19\par
+\cf1 --1)\cf2\par
+\cf3 use\cf2  inventory_management\cf4 ;\cf2\par
+\par
+\cf3 select\cf2  \cf4 *\cf2  \cf3 from\cf2  employees \cf3 where\cf2  eid \cf4 in\cf3  \cf4 (\cf3 select\cf2  manager_id \cf3 from\cf2  warehouses\cf4 )\cf2\par
+\cf3 union\cf2\par
+\cf3 select\cf2  \cf4 *\cf2  \cf3 from\cf2  employees \par
+\par
+\cf3 select\cf2  \cf4 *\cf2  \cf3 from\cf2  employees \cf3 where\cf2  eid \cf4 in\cf3  \cf4 (\cf3 select\cf2  manager_id \cf3 from\cf2  warehouses\cf4 )\cf2\par
+\cf3 union\cf2  \cf4 all\cf2\par
+\cf3 select\cf2  \cf4 *\cf2  \cf3 from\cf2  employees\par
+\par
+\cf1 -- 2)\cf2\par
+\cf3 use\cf2  library_management\cf4 ;\cf2\par
+\cf3 select\cf2  \cf4 *\cf2  \cf3 from\cf2  Book_Table \cf3 where\cf2  Book_id \cf4 in\cf3  \cf4 (\cf3 select\cf2  book_id \cf3 from\cf2  Loans\cf4 )\cf2\par
+\cf3 union\cf2\par
+\cf3 select\cf2  \cf4 *\cf2  \cf3 from\cf2  Book_Table \par
+\par
+\cf3 select\cf2  \cf4 *\cf2  \cf3 from\cf2  Book_Table \cf3 where\cf2  Book_id \cf4 in\cf3  \cf4 (\cf3 select\cf2  book_id \cf3 from\cf2  Loans\cf4 )\cf2\par
+\cf3 union\cf2  \cf4 all\cf2\par
+\cf3 select\cf2  \cf4 *\cf2  \cf3 from\cf2  Book_Table \par
+\par
+\cf1 -- 3)\cf2\par
+\cf3 use\cf2  social_media\cf4 ;\cf2\par
+\cf3 select\cf2  \cf4 *\cf2  \cf3 from\cf2  Users \cf3 where\cf2  \cf5 user_id\cf2  \cf4 in\cf3  \cf4 (\cf3 select\cf2  \cf5 user_id\cf2   \cf3 from\cf2  Posts\cf4 )\cf2\par
+\cf3 union\cf2\par
+\cf3 select\cf2  \cf4 *\cf2  \cf3 from\cf2  Users \par
+\cf3 select\cf2  \cf4 *\cf2  \cf3 from\cf2  Users \cf3 where\cf2  \cf5 user_id\cf2  \cf4 in\cf3  \cf4 (\cf3 select\cf2  \cf5 user_id\cf2   \cf3 from\cf2  Posts\cf4 )\cf2\par
+\cf3 union\cf2  \cf4 all\cf2\par
+\cf3 select\cf2  \cf4 *\cf2  \cf3 from\cf2  Users \par
+\par
+\fs36 14) Create Data Dictionary\par
+\fs19\lang16393\par
+\cf3 use\cf2  inventory_management\par
+\cf3 Select\cf2  Table_name\cf4 ,\cf2 column_name\cf4 ,\cf2 ORDINAL_POSITION\cf4 ,\cf2 is_nullable\cf4 ,\cf2 data_type\cf4 ,\cf2 CHARACTER_MAXIMUM_LENGTH\cf4 ,\cf2 CHARACTER_OCTET_LENGTH \cf3 From\cf2  \cf7 INFORMATION_SCHEMA\cf4 .\cf7 COLUMNS\cf2  \par
+\par
+\cf3 use\cf2  library_management\par
+\cf3 Select\cf2  Table_name\cf4 ,\cf2 column_name\cf4 ,\cf2 ORDINAL_POSITION\cf4 ,\cf2 is_nullable\cf4 ,\cf2 data_type\cf4 ,\cf2 CHARACTER_MAXIMUM_LENGTH\cf4 ,\cf2 CHARACTER_OCTET_LENGTH \cf3 From\cf2  \cf7 INFORMATION_SCHEMA\cf4 .\cf7 COLUMNS\cf2  \par
+\par
+\cf3 use\cf2  social_media\par
+\cf3 Select\cf2  Table_name\cf4 ,\cf2 column_name\cf4 ,\cf2 ORDINAL_POSITION\cf4 ,\cf2 is_nullable\cf4 ,\cf2 data_type\cf4 ,\cf2 CHARACTER_MAXIMUM_LENGTH\cf4 ,\cf2 CHARACTER_OCTET_LENGTH \cf3 From\cf2  \cf7 INFORMATION_SCHEMA\cf4 .\cf7 COLUMNS\cf2  \par
+\par
+\fs36\lang9 18) Write SQL queries for all the 4 different types of join as mentioned in the below screen shot:\fs19\par
+\par
+\cf1 -- 1)\cf2\par
+\cf3 use\cf2\tab inventory_management\cf4 ;\cf2\par
+\cf3 select\cf2  \cf4 *\cf2  \cf3 from\cf2  employees\par
+\cf4 Inner\cf2  \cf4 Join\cf2  warehouses\par
+\cf3 on\cf2  warehouses\cf4 .\cf2 manager_id\cf4 =\cf2 employees\cf4 .\cf2 eid\par
+\par
+\cf3 select\cf2  \cf4 *\cf2  \cf3 from\cf2  employees\par
+\cf4 left\cf2  \cf4 Join\cf2  warehouses\par
+\cf3 on\cf2  warehouses\cf4 .\cf2 manager_id\cf4 =\cf2 employees\cf4 .\cf2 eid\par
+\par
+\cf3 select\cf2  \cf4 *\cf2  \cf3 from\cf2  employees\par
+\cf4 right\cf2  \cf4 Join\cf2  warehouses\par
+\cf3 on\cf2  warehouses\cf4 .\cf2 manager_id\cf4 =\cf2 employees\cf4 .\cf2 eid\par
+\par
+\cf3 select\cf2  \cf4 *\cf2  \cf3 from\cf2  employees\par
+\cf3 full\cf2  \cf4 Join\cf2  warehouses\par
+\cf3 on\cf2  warehouses\cf4 .\cf2 manager_id\cf4 =\cf2 employees\cf4 .\cf2 eid\par
+\par
+\cf1 -- 2)\cf2\par
+\cf3 use\cf2\tab library_management\cf4 ;\cf2\par
+\cf3 select\cf2  \cf4 *\cf2  \cf3 from\cf2  Author_Table\par
+\cf4 Inner\cf2  \cf4 Join\cf2  Book_Table\par
+\cf3 on\cf2  Author_Table\cf4 .\cf2 author_id\cf4 =\cf2 Book_Table\cf4 .\cf2 author_id\par
+\par
+\cf3 select\cf2  \cf4 *\cf2  \cf3 from\cf2  Author_Table\par
+\cf4 left\cf2  \cf4 Join\cf2  Book_Table\par
+\cf3 on\cf2  Author_Table\cf4 .\cf2 author_id\cf4 =\cf2 Book_Table\cf4 .\cf2 author_id\par
+\par
+\cf3 select\cf2  \cf4 *\cf2  \cf3 from\cf2  Author_Table\par
+\cf4 right\cf2  \cf4 Join\cf2  Book_Table\par
+\cf3 on\cf2  Author_Table\cf4 .\cf2 author_id\cf4 =\cf2 Book_Table\cf4 .\cf2 author_id\par
+\par
+\par
+\cf3 select\cf2  \cf4 *\cf2  \cf3 from\cf2  Author_Table\par
+\cf3 full\cf2  \cf4 Join\cf2  Book_Table\par
+\cf3 on\cf2  Author_Table\cf4 .\cf2 author_id\cf4 =\cf2 Book_Table\cf4 .\cf2 author_id\par
+\par
+\par
+\cf1 -- 3)\cf2\par
+\cf3 use\cf2\tab social_media\cf4 ;\cf2\par
+\cf3 select\cf2  \cf4 *\cf2  \cf3 from\cf2  Users\par
+\cf4 Inner\cf2  \cf4 Join\cf2  Posts\par
+\cf3 on\cf2  Users\cf4 .\cf5 user_id\cf4 =\cf2 Posts\cf4 .\cf2 post_id\par
+\par
+\cf3 select\cf2  \cf4 *\cf2  \cf3 from\cf2  Users\par
+\cf4 Right\cf2  \cf4 Join\cf2  Posts\par
+\cf3 on\cf2  Users\cf4 .\cf5 user_id\cf4 =\cf2 Posts\cf4 .\cf2 post_id\par
+\par
+\cf3 select\cf2  \cf4 *\cf2  \cf3 from\cf2  Users\par
+\cf4 left\cf2  \cf4 Join\cf2  Posts\par
+\cf3 on\cf2  Users\cf4 .\cf5 user_id\cf4 =\cf2 Posts\cf4 .\cf2 post_id\par
+\par
+\cf3 select\cf2  \cf4 *\cf2  \cf3 from\cf2  Users\par
+\cf3 full\cf2  \cf4 Join\cf2  Posts\par
+\cf3 on\cf2  Users\cf4 .\cf5 user_id\cf4 =\cf2 Posts\cf4 .\cf2 post_id\par
+\cf0\f0\fs32\par
+}
+ 

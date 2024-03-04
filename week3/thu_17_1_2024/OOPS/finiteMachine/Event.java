@@ -1,0 +1,10 @@
+package finiteMachine;
+
+// Define events
+enum Event {
+    START,
+    TRANSITION_TO_STATE1,
+    ASYNC_OPERATION_COMPLETE,
+    TRANSITION_TO_STATE2,
+    ANOTHER_ASYNC_OPERATION_COMPLETE
+}

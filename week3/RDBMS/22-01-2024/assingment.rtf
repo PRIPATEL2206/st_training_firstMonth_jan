@@ -1,0 +1,629 @@
+{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Calibri;}{\f1\fnil\fcharset0 Times New Roman;}{\f2\fnil Consolas;}{\f3\fnil\fcharset0 Consolas;}{\f4\fnil\fcharset161 Consolas;}}
+{\colortbl ;\red0\green0\blue255;\red0\green0\blue0;\red128\green128\blue128;\red255\green0\blue0;\red255\green0\blue255;\red0\green128\blue0;}
+{\*\generator Riched20 10.0.22000}\viewkind4\uc1 
+\pard\sa200\sl276\slmult1\f0\fs36\lang9 1)Describe 5 differences between RDBMS vs DBMS (which are not covered in training session)\fs48\par
+\tab\f1\fs28\par
+\ul\b 1. Data Structure:\par
+\ulnone\b0 DBMS: In a generic DBMS, data is stored in various ways, and the relationships between different pieces of data may not be explicitly defined.\par
+RDBMS: RDBMS is a type of DBMS that organizes data into tables with rows and columns. It enforces a structure called a schema, which defines the relationships between tables.\par
+\par
+\ul\b 2. Data Integrity and Constraints:\par
+\ulnone\b0 DBMS: DBMS may or may not enforce data integrity constraints (such as unique keys or foreign keys). It depends on the specific implementation.\par
+RDBMS: RDBMS enforces data integrity through various constraints, such as primary keys, unique keys, foreign keys, and check constraints. This ensures the accuracy and consistency of the data.\par
+\par
+\ul\b 3. Normalization:\par
+\ulnone\b0 DBMS: Normalization is not a strict requirement in a generic DBMS, and data redundancy may exist.\par
+RDBMS: RDBMS encourages normalization, a process that reduces data redundancy by organizing data efficiently into related tables. This helps in maintaining data consistency and avoids anomalies.\par
+\par
+\ul\b 4. Query Language:\par
+\ulnone\b0 DBMS: DBMS typically uses a simpler query language that allows basic operations like insert, update, delete, and select.\par
+RDBMS: RDBMS uses a more sophisticated query language, usually SQL (Structured Query Language). SQL supports complex queries involving multiple tables, aggregations, and joins.\par
+\par
+\ul\b 5. ACID Properties:\par
+\ulnone\b0 DBMS: ACID (Atomicity, Consistency, Isolation, Durability) properties may or may not be fully supported by a generic DBMS.\par
+RDBMS: RDBMS adheres to the ACID properties, ensuring that database transactions are reliable even in the presence of errors, crashes, or system failures.\par
+\f0\fs48\par
+3) Write DDL for all operations for point #2.\par
+\fs36 #  Inventory Management System\par
+\fs48 ---------------------------------------------------------\par
+\fs40 create database\par
+\cf1\f2\fs19 CREATE\cf2  \cf1 DATABASE\cf2  inventory_management\par
+\f3\fs40\lang16393 create Tables\fs32\par
+\cf1\f2\fs19 CREATE\cf2  \cf1 TABLE\cf2  products\cf3 (\cf2\par
+\tab product_id \cf1 INT\cf2  \cf1 PRIMARY\cf2  \cf1 KEY\cf2  \cf1 IDENTITY\cf3 (\cf2 1\cf3 ,\cf2 1\cf3 ),\cf2\par
+\tab product_name \cf1 NVARCHAR\cf3 (\cf2 100\cf3 )\cf2   \cf3 NOT\cf2  \cf3 NULL,\cf2\par
+\tab description_text \cf1 NVARCHAR\cf3 (\cf2 150\cf3 ),\cf2\par
+\tab quantity_in_stock \cf1 INT\cf3 ,\cf2\par
+\tab reorder_level \cf1 INT\cf3 ,\cf2\par
+\tab prize \cf1 INT\cf3 ,\cf2\par
+\tab add_datetime \cf1 DATETIME\cf2\par
+\cf3 );\cf2\par
+\par
+\cf1 CREATE\cf2  \cf1 TABLE\cf2  suppliers\cf3 (\cf2\par
+\tab supplier_id \cf1 INT\cf2  \cf1 PRIMARY\cf2  \cf1 KEY\cf2  \cf1 IDENTITY\cf3 (\cf2 1\cf3 ,\cf2 1\cf3 ),\cf2\par
+\tab supplier_name \cf1 VARCHAR\cf3 (\cf2 100\cf3 )\cf2  \cf3 NOT\cf2  \cf3 NULL,\cf2\par
+\tab contact_person \cf1 VARCHAR\cf3 (\cf2 100\cf3 ),\cf2\par
+\tab phone_number \cf1 DECIMAL\cf3 (\cf2 10\cf3 ,\cf2 0\cf3 ),\cf2\par
+\tab email_id \cf1 VARCHAR\cf3 (\cf2 100\cf3 ),\cf2\par
+\tab add_datatime \cf1 DATETIME\cf3 ,\cf2\par
+\cf3 );\cf2\par
+\par
+\cf1 CREATE\cf2  \cf1 TABLE\cf2  order_table\cf3 (\cf2\par
+\tab order_id \cf1 INT\cf2  \cf1 PRIMARY\cf2  \cf1 KEY\cf2  \cf1 IDENTITY\cf3 (\cf2 1\cf3 ,\cf2 1\cf3 ),\cf2\par
+\tab supplier_id \cf1 INT\cf2  \cf3 NOT\cf2  \cf3 NULL\cf2  \cf1 FOREIGN\cf2  \cf1 KEY\cf3 (\cf2 supplier_id\cf3 )\cf1 REFERENCES\cf2  suppliers\cf3 (\cf2 supplier_id\cf3 ),\cf2\par
+\tab total_amount \cf1 DECIMAL\cf3 (\cf2 10\cf3 ,\cf2 2\cf3 )\cf2  \cf3 ,\cf2\par
+\tab order_status \cf1 VARCHAR\cf3 (\cf2 100\cf3 ),\cf2\par
+\tab order_datetime \cf1 DATETIME\cf2\par
+\cf3 );\cf2\par
+\par
+\cf1 CREATE\cf2  \cf1 TABLE\cf2  employees\cf3 (\cf2\par
+\tab eid \cf1 INT\cf2  \cf1 PRIMARY\cf2  \cf1 KEY\cf2  \cf1 IDENTITY\cf3 (\cf2 1\cf3 ,\cf2 1\cf3 ),\cf2\par
+\tab ename  \cf1 VARCHAR\cf2  \cf3 NOT\cf2  \cf3 NULL,\cf2\par
+\tab Contactno \cf1 DECIMAL\cf3 (\cf2 10\cf3 ,\cf2 0\cf3 ),\cf2\par
+\tab designation \cf1 VARCHAR\cf3 (\cf2 100\cf3 )\cf2  \cf3 ,\cf2\par
+\tab salary \cf1 INT\cf3 ,\cf2  \par
+\tab join_date \cf1 DATE\cf2\par
+\cf3 );\cf2\par
+\par
+\cf1 CREATE\cf2  \cf1 TABLE\cf2  warehouses\cf3 (\cf2\par
+\tab wid \cf1 INT\cf2  \cf1 PRIMARY\cf2  \cf1 KEY\cf2  \cf1 IDENTITY\cf3 (\cf2 1\cf3 ,\cf2 1\cf3 ),\cf2\par
+\tab warehouse_name  \cf1 VARCHAR\cf3 (\cf2 100\cf3 )\cf2  \cf3 NOT\cf2  \cf3 NULL,\cf2\par
+\tab current_location \cf1 VARCHAR\cf3 (\cf2 100\cf3 )\cf2  \cf3 NOT\cf2  \cf3 NULL,\cf2\par
+\tab capacity \cf1 INT\cf2  \cf3 NOT\cf2  \cf3 NULL,\cf2\par
+\tab manager_id \cf1 INT\cf2  \par
+\cf3 );\cf2  \par
+\f3\fs40 insert data\par
+\cf1\f2\fs19 INSERT\cf2  \cf1 INTO\cf2  products\cf3 (\cf2 product_name\cf3 ,\cf2 catagory\cf3 ,\cf2 description_text\cf3 ,\cf2 quantity_in_stock\cf3 ,\cf2 reorder_level\cf3 ,\cf2 prize\cf3 ,\cf2 add_datetime\cf3 )\cf2\par
+\cf1 VALUES\cf2  \par
+\cf1\tab\cf3 (\cf4 'TV'\cf3 ,\cf4 'Electronics'\cf3 ,\cf4 'LCD TV'\cf3 ,\cf2 200\cf3 ,\cf2 5\cf3 ,\cf2 50000\cf3 ,\cf5 GETDATE\cf3 ()),\cf2\par
+\cf1\tab\cf3 (\cf4 'shirt'\cf3 ,\cf4 'Clothing'\cf3 ,\cf4 'formal shirt'\cf3 ,\cf2 1000\cf3 ,\cf2 10\cf3 ,\cf2 500\cf3 ,\cf5 GETDATE\cf3 ()),\cf2\par
+\cf1\tab\cf3 (\cf4 'alt'\cf3 ,\cf4 'Home Goods'\cf3 ,\cf4 'tata salt'\cf3 ,\cf2 2000\cf3 ,\cf2 100\cf3 ,\cf2 50\cf3 ,\cf5 GETDATE\cf3 ()),\cf2\par
+\cf1\tab\cf3 (\cf4 'washing machine'\cf3 ,\cf4 'Electronics'\cf3 ,\cf4 'Washing machine'\cf3 ,\cf2 200\cf3 ,\cf2 5\cf3 ,\cf2 20000\cf3 ,\cf5 GETDATE\cf3 ()),\cf2\par
+\cf1\tab\cf3 (\cf4 'rich dad poor dad'\cf3 ,\cf4 'Books'\cf3 ,\cf4 'intrsting book to read'\cf3 ,\cf2 200\cf3 ,\cf2 5\cf3 ,\cf2 1000\cf3 ,\cf5 GETDATE\cf3 ());\cf2\par
+\par
+\cf1 INSERT\cf2  \cf1 INTO\cf2  suppliers\cf3 (\cf2 supplier_name\cf3 ,\cf2 contact_person\cf3 ,\cf2 phone_number\cf3 ,\cf2 email_id\cf3 ,\cf2 add_datatime\cf3 )\cf2\par
+\cf1 VALUES\cf2  \par
+\cf1\tab\cf3 (\cf4 'gada electronics'\cf3 ,\cf4 'jathalal'\cf3 ,\cf4 '111-111-111'\cf3 ,\cf4 'jathlala@no1.com'\cf3 ,\cf5 GETDATE\cf3 ()),\cf2\par
+\cf1\tab\cf3 (\cf4 'ramesh Cloth'\cf3 ,\cf4 'rameshhai'\cf3 ,\cf4 '222-222-222'\cf3 ,\cf4 'ramesh@gmail.com'\cf3 ,\cf5 GETDATE\cf3 ()),\cf2\par
+\cf1\tab\cf3 (\cf4 'tata goods'\cf3 ,\cf4 'ratan tata'\cf3 ,\cf4 '777-777-777'\cf3 ,\cf4 'tatagood@gmail.com'\cf3 ,\cf5 GETDATE\cf3 ()),\cf2\par
+\cf1\tab\cf3 (\cf4 'amazon'\cf3 ,\cf4 'bill gates'\cf3 ,\cf4 '333-333-333'\cf3 ,\cf4 'amazon@gmail.com'\cf3 ,\cf5 GETDATE\cf3 ());\cf2\par
+\par
+\cf1 INSERT\cf2  \cf1 INTO\cf2  order_table\cf1  \cf3 (\cf2 supplier_id\cf3 ,\cf2  total_amount\cf3 ,\cf2  order_status\cf3 ,\cf2  order_datetime\cf3 )\cf2\par
+\cf1 VALUES\cf2\par
+\cf1     \cf3 (\cf2 1\cf3 ,\cf2  150.00\cf3 ,\cf2  \cf4 'Processing'\cf3 ,\cf2  \cf4 '2022-01-15T10:30:00'\cf3 ),\cf2\par
+\cf1     \cf3 (\cf2 1\cf3 ,\cf2  200.50\cf3 ,\cf2  \cf4 'Shipped'\cf3 ,\cf2  \cf4 '2022-02-20T15:45:00'\cf3 ),\cf2\par
+\cf1     \cf3 (\cf2 1\cf3 ,\cf2  75.25\cf3 ,\cf2  \cf4 'Delivered'\cf3 ,\cf2  \cf4 '2022-03-10T08:15:00'\cf3 ),\cf2\par
+\cf1     \cf3 (\cf2 1\cf3 ,\cf2  300.75\cf3 ,\cf2  \cf4 'Processing'\cf3 ,\cf2  \cf4 '2022-04-05T12:00:00'\cf3 ),\cf2\par
+\cf1     \cf3 (\cf2 1\cf3 ,\cf2  180.00\cf3 ,\cf2  \cf4 'Shipped'\cf3 ,\cf2  \cf4 '2022-05-18T14:20:00'\cf3 );\cf2\par
+\par
+\cf1 INSERT\cf2  \cf1 INTO\cf2  employees\cf1  \cf3 (\cf2 ename\cf3 ,\cf2  Contactno\cf3 ,\cf2  designation\cf3 ,\cf2  salary\cf3 ,\cf2  join_date\cf3 )\cf2\par
+\cf1 VALUES\cf2\par
+\cf1     \cf3 (\cf4 'John Doe'\cf3 ,\cf2  \cf4 '123-456-7890'\cf3 ,\cf2  \cf4 'Manager'\cf3 ,\cf2  60000\cf3 ,\cf2  \cf4 '2022-01-15'\cf3 ),\cf2\par
+\cf1     \cf3 (\cf4 'Jane Smith'\cf3 ,\cf2  \cf4 '987-654-3210'\cf3 ,\cf2  \cf4 'Developer'\cf3 ,\cf2  50000\cf3 ,\cf2  \cf4 '2022-02-20'\cf3 ),\cf2\par
+\cf1     \cf3 (\cf4 'Alice Johnson'\cf3 ,\cf2  \cf4 '555-123-4567'\cf3 ,\cf2  \cf4 'Analyst'\cf3 ,\cf2  45000\cf3 ,\cf2  \cf4 '2022-03-10'\cf3 ),\cf2\par
+\cf1     \cf3 (\cf4 'Bob Williams'\cf3 ,\cf2  \cf4 '111-222-3333'\cf3 ,\cf2  \cf4 'Designer'\cf3 ,\cf2  55000\cf3 ,\cf2  \cf4 '2022-04-05'\cf3 ),\cf2\par
+\cf1     \cf3 (\cf4 'Eva Brown'\cf3 ,\cf2  \cf4 '999-888-7777'\cf3 ,\cf2  \cf4 'Tester'\cf3 ,\cf2  48000\cf3 ,\cf2  \cf4 '2022-05-18'\cf3 );\cf2\par
+\par
+\par
+\cf1 INSERT\cf2  \cf1 INTO\cf2  warehouses\cf1  \cf3 (\cf2 warehouse_name\cf3 ,\cf2  current_location\cf3 ,\cf2  capacity\cf3 ,\cf2  manager_id\cf3 )\cf2\par
+\cf1 VALUES\cf2\par
+\cf1     \cf3 (\cf4 'Warehouse A'\cf3 ,\cf2  \cf4 'Location A'\cf3 ,\cf2  10000\cf3 ,\cf2  1\cf3 ),\cf2\par
+\cf1     \cf3 (\cf4 'Warehouse B'\cf3 ,\cf2  \cf4 'Location B'\cf3 ,\cf2  15000\cf3 ,\cf2  2\cf3 ),\cf2\par
+\cf1     \cf3 (\cf4 'Warehouse C'\cf3 ,\cf2  \cf4 'Location C'\cf3 ,\cf2  12000\cf3 ,\cf2  3\cf3 );\cf2\fs40\par
+\par
+\cf0\f0\fs36\lang9 #  \cf2\f2\fs40 library_management\cf0\f0\fs36\par
+\fs48 ---------------------------------------------------------\par
+\fs40 create database\par
+\cf1\f2\fs19 CREATE\cf2  \cf1 DATABASE\cf2  library_management\par
+\f3\fs40\lang16393 create Tables\fs32\par
+\cf1\f2\fs19 CREATE\cf2  \cf1 TABLE\cf2  Genre_Table\cf1  \cf3 (\cf2\par
+  genre_id \cf1 INT\cf2  \cf1 PRIMARY\cf2  \cf1 KEY\cf2  \cf1 IDENTITY\cf3 (\cf2 1\cf3 ,\cf2 1\cf3 ),\cf2\par
+  \cf1 name\cf2  \cf1 VARCHAR\cf3 (\cf2 250\cf3 ),\cf2\par
+  \cf1 description\cf2  \cf1 VARCHAR\cf3 (\cf2 250\cf3 ),\cf2\par
+  books_type_avail \cf1 INT\cf3 ,\cf2\par
+  created_at \cf1 DATETIME\cf3 ,\cf2\par
+  update_time \cf1 DATETIME\cf2\par
+\cf3 );\cf2\par
+\par
+\cf1 CREATE\cf2  \cf1 TABLE\cf2  Author_Table\cf1  \cf3 (\cf2\par
+  author_id \cf1 INT\cf2  \cf1 PRIMARY\cf2  \cf1 KEY\cf2  \cf1 IDENTITY\cf3 (\cf2 1\cf3 ,\cf2 1\cf3 ),\cf2\par
+  author_name \cf1 VARCHAR\cf3 (\cf2 100\cf3 ),\cf2\par
+  birthday \cf1 DATETIME\cf3 ,\cf2\par
+  nationality \cf1 VARCHAR\cf3 (\cf2 100\cf3 ),\cf2\par
+  biography \cf1 VARCHAR\cf3 (\cf2 1000\cf3 )\cf2\par
+\cf3 );\cf2\par
+\par
+\cf1 CREATE\cf2  \cf1 TABLE\cf2  Book_Table\cf1  \cf3 (\cf2\par
+  Book_id \cf1 INT\cf2  \cf1 PRIMARY\cf2  \cf1 KEY\cf2  \cf1 IDENTITY\cf3 (\cf2 1\cf3 ,\cf2 1\cf3 ),\cf2\par
+  title \cf1 VARCHAR\cf3 (\cf2 100\cf3 )\cf2  \cf3 NOT\cf2  \cf3 NULL,\cf2\par
+  Genre_id \cf1 INT\cf3 ,\cf2\par
+  author_id \cf1 INT\cf3 ,\cf2\par
+  publication_date \cf1 DATETIME\cf3 ,\cf2\par
+  is_available \cf1 BIT\cf2  \cf1 DEFAULT\cf2  1\cf3 ,\cf2\par
+  quantity \cf1 INT\cf3 ,\cf2\par
+  \cf1 FOREIGN\cf2  \cf1 KEY \cf3 (\cf2 Genre_id\cf3 )\cf2  \cf1 REFERENCES\cf2  Genre_Table\cf3 (\cf2 genre_id\cf3 ),\cf2\par
+  \cf1 FOREIGN\cf2  \cf1 KEY \cf3 (\cf2 author_id\cf3 )\cf2  \cf1 REFERENCES\cf2  Author_Table\cf3 (\cf2 author_id\cf3 )\cf2\par
+\cf3 );\cf2\par
+\par
+\cf1 CREATE\cf2  \cf1 TABLE\cf2  Members_Table\cf1  \cf3 (\cf2\par
+  member_id \cf1 INT\cf2  \cf1 PRIMARY\cf2  \cf1 KEY\cf2  \cf1 IDENTITY\cf3 (\cf2 1\cf3 ,\cf2 1\cf3 ),\cf2\par
+  member_name \cf1 VARCHAR\cf3 (\cf2 200\cf3 ),\cf2\par
+  Join_Date \cf1 DATETIME\cf3 ,\cf2\par
+  ending_date \cf1 DATETIME\cf3 ,\cf2\par
+  \cf1 address\cf2  \cf1 VARCHAR\cf3 (\cf2 500\cf3 ),\cf2\par
+  phone_no \cf1 VARCHAR\cf3 (\cf2 10\cf3 )\cf2\par
+\cf3 );\cf2\par
+\par
+\cf1 CREATE\cf2  \cf1 TABLE\cf2  Loans\cf1  \cf3 (\cf2\par
+  loan_id \cf1 INT\cf2  \cf1 PRIMARY\cf2  \cf1 KEY\cf2  \cf1 IDENTITY\cf3 (\cf2 1\cf3 ,\cf2 1\cf3 ),\cf2\par
+  book_id \cf1 INT\cf3 ,\cf2\par
+  member_id \cf1 INT\cf3 ,\cf2\par
+  loan_date \cf1 DATETIME\cf3 ,\cf2\par
+  return_date \cf1 DATETIME\cf3 ,\cf2\par
+  \cf1 FOREIGN\cf2  \cf1 KEY \cf3 (\cf2 book_id\cf3 )\cf2  \cf1 REFERENCES\cf2  Book_Table\cf3 (\cf2 Book_id\cf3 ),\cf2\par
+  \cf1 FOREIGN\cf2  \cf1 KEY \cf3 (\cf2 member_id\cf3 )\cf2  \cf1 REFERENCES\cf2  Members_Table\cf3 (\cf2 member_id\cf3 )\cf2\par
+\cf3 );\par
+\cf0\f3\fs36 insert data\cf2\f2\fs40\par
+\cf1\fs19 INSERT\cf2  \cf1 INTO\cf2  Book_Table\cf1  \cf3 (\cf2  title\cf3 ,\cf2  Genre_id\cf3 ,\cf2  author_id\cf3 ,\cf2  publication_date\cf3 ,\cf2  is_available\cf3 ,\cf2  quantity\cf3 )\cf2\par
+\cf1 VALUES\cf2\par
+\cf1   \cf3 (\cf2  \cf4 'The Great Gatsby'\cf3 ,\cf2  1\cf3 ,\cf2  1\cf3 ,\cf2  \cf4 '2022-01-01'\cf3 ,\cf2  1\cf3 ,\cf2  10\cf3 ),\cf2\par
+\cf1   \cf3 (\cf2  \cf4 'To Kill a Mockingbird'\cf3 ,\cf2  2\cf3 ,\cf2  2\cf3 ,\cf2  \cf4 '2022-02-01'\cf3 ,\cf2  1\cf3 ,\cf2  15\cf3 ),\cf2\par
+\cf1   \cf3 (\cf2  \cf4 '1984'\cf3 ,\cf2  3\cf3 ,\cf2  3\cf3 ,\cf2  \cf4 '2022-03-01'\cf3 ,\cf2  1\cf3 ,\cf2  20\cf3 ),\cf2\par
+\cf1   \cf3 (\cf2  \cf4 'Pride and Prejudice'\cf3 ,\cf2  1\cf3 ,\cf2  4\cf3 ,\cf2  \cf4 '2022-04-01'\cf3 ,\cf2  1\cf3 ,\cf2  12\cf3 ),\cf2\par
+\cf1   \cf3 (\cf2  \cf4 'The Catcher in the Rye'\cf3 ,\cf2  2\cf3 ,\cf2  5\cf3 ,\cf2  \cf4 '2022-05-01'\cf3 ,\cf2  1\cf3 ,\cf2  8\cf3 );\cf2\par
+\par
+\cf1 INSERT\cf2  \cf1 INTO\cf2  Author_Table\cf1  \cf3 (\cf2  author_name\cf3 ,\cf2  birthday\cf3 ,\cf2  nationality\cf3 ,\cf2  biography\cf3 )\cf2\par
+\cf1 VALUES\cf2\par
+\cf1   \cf3 (\cf4 'F. Scott Fitzgerald'\cf3 ,\cf2  \cf4 '1896-09-24'\cf3 ,\cf2  \cf4 'American'\cf3 ,\cf2  \cf4 'F. Scott Fitzgerald was an American novelist, essayist, and short-story writer, known for his novels depicting the flamboyance and excess of the Jazz Age.'\cf3 ),\cf2\par
+\cf1   \cf3 (\cf4 'Harper Lee'\cf3 ,\cf2  \cf4 '1926-04-28'\cf3 ,\cf2  \cf4 'American'\cf3 ,\cf2  \cf4 'Harper Lee was an American novelist widely known for To Kill a Mockingbird, published in 1960. Immediately successful, it won the Pulitzer Prize and has become a classic of modern American literature.'\cf3 ),\cf2\par
+\cf1   \cf3 (\cf2  \cf4 'George Orwell'\cf3 ,\cf2  \cf4 '1903-06-25'\cf3 ,\cf2  \cf4 'British'\cf3 ,\cf2  \cf4 'George Orwell was an English novelist, essayist, journalist, and critic. His work is characterized by lucid prose, biting social criticism, and awareness of social injustice.'\cf3 ),\cf2\par
+\cf1   \cf3 (\cf4 'Jane Austen'\cf3 ,\cf2  \cf4 '1775-12-16'\cf3 ,\cf2  \cf4 'British'\cf3 ,\cf2  \cf4 'Jane Austen was an English novelist known primarily for her six major novels, which interpret, critique, and comment upon the British landed gentry at the end of the 18th century.'\cf3 ),\cf2\par
+\cf1   \cf3 (\cf2  \cf4 'J.D. Salinger'\cf3 ,\cf2  \cf4 '1919-01-01'\cf3 ,\cf2  \cf4 'American'\cf3 ,\cf2  \cf4 'J.D. Salinger was an American writer known for his widely read novel, The Catcher in the Rye. Following his early success publishing short stories and The Catcher in the Rye, Salinger led a very private life for more than a half-century.'\cf3 );\cf2\par
+\par
+\cf1 INSERT\cf2  \cf1 INTO\cf2  Members_Table\cf1  \cf3 (\cf2  member_name\cf3 ,\cf2  Join_Date\cf3 ,\cf2  ending_date\cf3 ,\cf2  \cf1 address\cf3 ,\cf2  phone_no\cf3 )\cf2\par
+\cf1 VALUES\cf2\par
+\cf1   \cf3 (\cf2  \cf4 'John Smith'\cf3 ,\cf2  \cf4 '2022-01-15'\cf3 ,\cf2  \cf4 '2023-01-15'\cf3 ,\cf2  \cf4 '123 Main St, Cityville'\cf3 ,\cf2  \cf4 '1234567890'\cf3 ),\cf2\par
+\cf1   \cf3 (\cf2  \cf4 'Alice Johnson'\cf3 ,\cf2  \cf4 '2022-02-20'\cf3 ,\cf2  \cf4 '2023-02-20'\cf3 ,\cf2  \cf4 '456 Oak St, Townsville'\cf3 ,\cf2  \cf4 '9876543210'\cf3 ),\cf2\par
+\cf1   \cf3 (\cf2  \cf4 'Bob Williams'\cf3 ,\cf2  \cf4 '2022-03-10'\cf3 ,\cf2  \cf4 '2023-03-10'\cf3 ,\cf2  \cf4 '789 Pine St, Villagetown'\cf3 ,\cf2  \cf4 '5551112233'\cf3 ),\cf2\par
+\cf1   \cf3 (\cf4 'Emily Davis'\cf3 ,\cf2  \cf4 '2022-04-05'\cf3 ,\cf2  \cf4 '2023-04-05'\cf3 ,\cf2  \cf4 '101 Elm St, Hamletville'\cf3 ,\cf2  \cf4 '9998887777'\cf3 ),\cf2\par
+\cf1   \cf3 (\cf4 'David Wilson'\cf3 ,\cf2  \cf4 '2022-05-12'\cf3 ,\cf2  \cf4 '2023-05-12'\cf3 ,\cf2  \cf4 '202 Cedar St, Countryside'\cf3 ,\cf2  \cf4 '3334445555'\cf3 );\cf2\par
+\par
+\cf1 INSERT\cf2  \cf1 INTO\cf2  Loans\cf1  \cf3 (\cf2  book_id\cf3 ,\cf2  member_id\cf3 ,\cf2  loan_date\cf3 ,\cf2  return_date\cf3 )\cf2\par
+\cf1 VALUES\cf2\par
+\cf1   \cf3 (\cf2 2\cf3 ,\cf2  1\cf3 ,\cf2  \cf4 '2022-01-20'\cf3 ,\cf2  \cf4 '2022-02-20'\cf3 ),\cf2\par
+\cf1   \cf3 (\cf2 3\cf3 ,\cf2  2\cf3 ,\cf2  \cf4 '2022-02-25'\cf3 ,\cf2  \cf4 '2022-03-25'\cf3 ),\cf2\par
+\cf1   \cf3 (\cf2  4\cf3 ,\cf2  3\cf3 ,\cf2  \cf4 '2022-03-15'\cf3 ,\cf2  \cf4 '2022-04-15'\cf3 ),\cf2\par
+\cf1   \cf3 (\cf2  5\cf3 ,\cf2  4\cf3 ,\cf2  \cf4 '2022-04-10'\cf3 ,\cf2  \cf4 '2022-05-10'\cf3 ),\cf2\par
+\cf1   \cf3 (\cf2  6\cf3 ,\cf2  5\cf3 ,\cf2  \cf4 '2022-05-18'\cf3 ,\cf2  \cf4 '2022-06-18'\cf3 );\cf2\par
+\par
+\cf1 INSERT\cf2  \cf1 INTO\cf2  Genre_Table\cf1  \cf3 (\cf2  \cf1 name\cf3 ,\cf2  \cf1 description\cf3 ,\cf2  books_type_avail\cf3 ,\cf2  created_at\cf3 ,\cf2  update_time\cf3 )\cf2\par
+\cf1 VALUES\cf2\par
+\cf1   \cf3 (\cf4 'Fiction'\cf3 ,\cf2  \cf4 'Literary works created from the imagination, not based on real events'\cf3 ,\cf2  3\cf3 ,\cf2  \cf4 '2022-01-01'\cf3 ,\cf2  \cf4 '2022-01-15'\cf3 ),\cf2\par
+\cf1   \cf3 (\cf2  \cf4 'Classics'\cf3 ,\cf2  \cf4 'Books that are widely accepted as exemplary and noteworthy of their genre'\cf3 ,\cf2  2\cf3 ,\cf2  \cf4 '2022-01-01'\cf3 ,\cf2  \cf4 '2022-01-15'\cf3 ),\cf2\par
+\cf1   \cf3 (\cf2  \cf4 'Dystopian'\cf3 ,\cf2  \cf4 'Books set in a future society where there is great suffering or injustice'\cf3 ,\cf2  1\cf3 ,\cf2  \cf4 '2022-01-01'\cf3 ,\cf2  \cf4 '2022-01-15'\cf3 );\par
+\par
+\cf0\fs36 #  \cf2 social\f3  \f2 media\f3  \cf0\f2 System\par
+---------------------------------------------------------\par
+create database\par
+\cf1\fs19 create\cf2  \cf1 database\cf2  social_media\cf0\fs36\par
+create Tables\par
+\cf1\fs19 CREATE\cf2  \cf1 TABLE\cf2  Users\cf1  \cf3 (\cf2\par
+  \cf5 user_id\cf2  \cf1 INT\cf2  \cf1 PRIMARY\cf2  \cf1 KEY\cf2  \cf1 IDENTITY\cf3 (\cf2 1\cf3 ,\cf2 1\cf3 ),\cf2\par
+  username \cf1 VARCHAR\cf3 (\cf2 50\cf3 )\cf2  \cf3 NOT\cf2  \cf3 NULL,\cf2\par
+  email_id \cf1 VARCHAR\cf3 (\cf2 100\cf3 )\cf2  \cf3 NOT\cf2  \cf3 NULL,\cf2\par
+  \cf1 password\cf2  \cf1 VARCHAR\cf3 (\cf2 255\cf3 )\cf2  \cf3 NOT\cf2  \cf3 NULL,\cf2\par
+  profile_picture \cf1 VARBINARY\cf3 (\cf5 MAX\cf3 ),\cf2\par
+  is_active \cf1 BIT\cf2  \cf1 DEFAULT\cf2  1\par
+\cf3 );\cf2\par
+\par
+\cf1 CREATE\cf2  \cf1 TABLE\cf2  Posts\cf1  \cf3 (\cf2\par
+  post_id \cf1 INT\cf2  \cf1 PRIMARY\cf2  \cf1 KEY\cf2  \cf1 IDENTITY\cf3 (\cf2 1\cf3 ,\cf2 1\cf3 ),\cf2\par
+  \cf5 user_id\cf2  \cf1 INT\cf2  \cf3 NOT\cf2  \cf3 NULL,\cf2\par
+  content \cf1 VARCHAR\cf3 (\cf2 255\cf3 )\cf2  \cf3 NOT\cf2  \cf3 NULL,\cf2\par
+  created_at \cf1 DATETIME\cf2  \cf1 DEFAULT\cf2  \cf5 CURRENT_TIMESTAMP\cf3 ,\cf2\par
+  media_type \cf1 VARCHAR\cf3 (\cf2 20\cf3 ),\cf2\par
+  media_url \cf1 VARCHAR\cf3 (\cf2 255\cf3 ),\cf2\par
+  \cf1 FOREIGN\cf2  \cf1 KEY \cf3 (\cf5 user_id\cf3 )\cf2  \cf1 REFERENCES\cf2  Users\cf3 (\cf5 user_id\cf3 )\cf2\par
+\cf3 );\cf2\par
+\par
+\cf1 CREATE\cf2  \cf1 TABLE\cf2  Friends\cf1  \cf3 (\cf2\par
+  \cf5 user_id\cf2  \cf1 INT\cf2  \cf3 NOT\cf2  \cf3 NULL,\cf2\par
+  friend_id \cf1 INT\cf2  \cf3 NOT\cf2  \cf3 NULL,\cf2\par
+  \cf1 status\cf2  \cf1 VARCHAR\cf3 (\cf2 20\cf3 )\cf2  \cf1 DEFAULT\cf2  \cf4 'pending'\cf3 ,\cf2\par
+  relationship_type \cf1 VARCHAR\cf3 (\cf2 20\cf3 )\cf2  \cf1 DEFAULT\cf2  \cf4 'friend'\cf3 ,\cf2\par
+  best_friend \cf1 BIT\cf2  \cf1 DEFAULT\cf2  0\cf3 ,\cf2\par
+  created_at \cf1 DATETIME\cf2  \cf1 DEFAULT\cf2  \cf5 CURRENT_TIMESTAMP\cf3 ,\cf2\par
+  \cf1 PRIMARY\cf2  \cf1 KEY \cf3 (\cf5 user_id\cf3 ,\cf2  friend_id\cf3 ),\cf2\par
+  \cf1 FOREIGN\cf2  \cf1 KEY \cf3 (\cf5 user_id\cf3 )\cf2  \cf1 REFERENCES\cf2  Users\cf3 (\cf5 user_id\cf3 ),\cf2\par
+  \cf1 FOREIGN\cf2  \cf1 KEY \cf3 (\cf2 friend_id\cf3 )\cf2  \cf1 REFERENCES\cf2  Users\cf3 (\cf5 user_id\cf3 )\cf2\par
+\cf3 );\cf2\par
+\par
+\par
+\cf1 CREATE\cf2  \cf1 TABLE\cf2  Likes\cf1  \cf3 (\cf2\par
+  \cf5 user_id\cf2  \cf1 INT\cf2  \cf3 NOT\cf2  \cf3 NULL,\cf2\par
+  post_id \cf1 INT\cf2  \cf3 NOT\cf2  \cf3 NULL,\cf2\par
+  liked_at \cf1 DATETIME\cf2  \cf1 DEFAULT\cf2  \cf5 CURRENT_TIMESTAMP\cf3 ,\cf2\par
+  \cf1 PRIMARY\cf2  \cf1 KEY \cf3 (\cf5 user_id\cf3 ,\cf2  post_id\cf3 ),\cf2\par
+  \cf1 FOREIGN\cf2  \cf1 KEY \cf3 (\cf5 user_id\cf3 )\cf2  \cf1 REFERENCES\cf2  Users\cf3 (\cf5 user_id\cf3 ),\cf2\par
+  \cf1 FOREIGN\cf2  \cf1 KEY \cf3 (\cf2 post_id\cf3 )\cf2  \cf1 REFERENCES\cf2  Posts\cf3 (\cf2 post_id\cf3 )\cf2\par
+\cf3 );\cf2\par
+\par
+\par
+\cf1 CREATE\cf2  \cf1 TABLE\cf2  Notifications\cf1  \cf3 (\cf2\par
+  notification_id \cf1 INT\cf2  \cf1 PRIMARY\cf2  \cf1 KEY\cf2  \cf1 IDENTITY\cf3 (\cf2 1\cf3 ,\cf2 1\cf3 ),\cf2\par
+  \cf5 user_id\cf2  \cf1 INT\cf2  \cf3 NOT\cf2  \cf3 NULL,\cf2\par
+  content \cf1 VARCHAR\cf3 (\cf2 255\cf3 )\cf2  \cf3 NOT\cf2  \cf3 NULL,\cf2\par
+  isRead \cf1 BIT\cf2  \cf1 DEFAULT\cf2  0\cf3 ,\cf2\par
+  created_at \cf1 DATETIME\cf2  \cf1 DEFAULT\cf2  \cf5 CURRENT_TIMESTAMP\cf3 ,\cf2\par
+  \cf1 FOREIGN\cf2  \cf1 KEY \cf3 (\cf5 user_id\cf3 )\cf2  \cf1 REFERENCES\cf2  Users\cf3 (\cf5 user_id\cf3 )\cf2\par
+\cf3 );\cf2\par
+\par
+\cf1 CREATE\cf2  \cf1 TABLE\cf2  Comments\cf1  \cf3 (\cf2\par
+  comment_id \cf1 INT\cf2  \cf1 PRIMARY\cf2  \cf1 KEY\cf2  \cf1 IDENTITY\cf3 (\cf2 1\cf3 ,\cf2 1\cf3 ),\cf2\par
+  post_id \cf1 INT\cf2  \cf3 NOT\cf2  \cf3 NULL,\cf2\par
+  \cf5 user_id\cf2  \cf1 INT\cf2  \cf3 NOT\cf2  \cf3 NULL,\cf2\par
+  content \cf1 VARCHAR\cf3 (\cf2 500\cf3 )\cf2  \cf3 NOT\cf2  \cf3 NULL,\cf2\par
+  \cf1 timestamp\cf2  \cf1 DATETIME\cf2  \cf1 DEFAULT\cf2  \cf5 CURRENT_TIMESTAMP\cf3 ,\cf2\par
+  likes \cf1 INT\cf2  \cf1 DEFAULT\cf2  0\cf3 ,\cf2\par
+  \cf1 FOREIGN\cf2  \cf1 KEY \cf3 (\cf2 post_id\cf3 )\cf2  \cf1 REFERENCES\cf2  Posts\cf3 (\cf2 post_id\cf3 ),\cf2\par
+  \cf1 FOREIGN\cf2  \cf1 KEY \cf3 (\cf5 user_id\cf3 )\cf2  \cf1 REFERENCES\cf2  Users\cf3 (\cf5 user_id\cf3 )\cf2\par
+\cf3 );\cf2\par
+\cf0\f3\fs36 insert data\par
+\cf1\f2\fs19 INSERT\cf2  \cf1 INTO\cf2  Users\cf1  \cf3 (\cf2 username\cf3 ,\cf2  email_id\cf3 ,\cf2  \cf1 password\cf3 )\cf2\par
+\cf1 VALUES\cf2\par
+\cf1   \cf3 (\cf4 'JohnDoe123'\cf3 ,\cf2  \cf4 'johndoe@example.com'\cf3 ,\cf2  \cf4 'hashData1'\cf3 ),\cf2\par
+\cf1   \cf3 (\cf4 'JaneSmith456'\cf3 ,\cf2  \cf4 'janesmith@example.com'\cf3 ,\cf2  \cf4 'hashData2'\cf3 ),\cf2\par
+\cf1   \cf3 (\cf4 'BobJohnson789'\cf3 ,\cf2  \cf4 'bobjohnson@example.com'\cf3 ,\cf2  \cf4 'hashData3'\cf3 ),\cf2\par
+\cf1   \cf3 (\cf4 'EmilyDavis101'\cf3 ,\cf2  \cf4 'emilydavis@example.com'\cf3 ,\cf2  \cf4 'hashData4'\cf3 ),\cf2\par
+\cf1   \cf3 (\cf4 'Pratik123'\cf3 ,\cf2  \cf4 'pratik@example.com'\cf3 ,\cf2  \cf4 'hashData1'\cf3 ),\cf2\par
+\cf1   \cf3 (\cf4 'Prakash456'\cf3 ,\cf2  \cf4 'prakash@example.com'\cf3 ,\cf2  \cf4 'hashData2'\cf3 ),\cf2\par
+\cf1   \cf3 (\cf4 'Prince789'\cf3 ,\cf2  \cf4 'prince@example.com'\cf3 ,\cf2  \cf4 'hashData3'\cf3 ),\cf2\par
+\cf1   \cf3 (\cf4 'Kartik101'\cf3 ,\cf2  \cf4 'kartik@example.com'\cf3 ,\cf2  \cf4 'hashData4'\cf3 );\cf2\par
+\par
+\cf1 INSERT\cf2  \cf1 INTO\cf2  Posts\cf1  \cf3 (\cf5 user_id\cf3 ,\cf2 content\cf3 ,\cf2  media_type\cf3 ,\cf2  media_url\cf3 )\cf2\par
+\cf1 VALUES\cf2  \par
+\cf1   \cf3 (\cf2 5\cf3 ,\cf4 'This is my first post!'\cf3 ,\cf2  \cf4 'text'\cf3 ,\cf2  \cf3 NULL),\cf2\par
+\cf1   \cf3 (\cf2 6\cf3 ,\cf4 'Check out this amazing photo!'\cf3 ,\cf2  \cf4 'image'\cf3 ,\cf2  \cf4 '{{\field{\*\fldinst{HYPERLINK https://example.com/images/photo1.jpg }}{\fldrslt{https://example.com/images/photo1.jpg\ul0\cf0}}}}\f2\fs19 '\cf3 ),\cf2\par
+\cf1   \cf3 (\cf2 6\cf3 ,\cf4 'Just posted a video tutorial!'\cf3 ,\cf2  \cf4 'video'\cf3 ,\cf2  \cf4 '{{\field{\*\fldinst{HYPERLINK https://example.com/videos/tutorial.mp4 }}{\fldrslt{https://example.com/videos/tutorial.mp4\ul0\cf0}}}}\f2\fs19 '\cf3 ),\cf2\par
+\cf1   \cf3 (\cf2 7\cf3 ,\cf4 'Thoughts on the latest tech trends.'\cf3 ,\cf2  \cf4 'text'\cf3 ,\cf2  \cf3 NULL);\cf2\par
+\par
+\cf1 INSERT\cf2  \cf1 INTO\cf2  Friends\cf1  \cf3 (\cf5 user_id\cf3 ,\cf2  friend_id\cf3 ,\cf2  \cf1 status\cf3 ,\cf2  relationship_type\cf3 ,\cf2  best_friend\cf3 )\cf2\par
+\cf1 VALUES\cf2  \par
+\cf1   \cf3 (\cf2 1\cf3 ,\cf2  2\cf3 ,\cf2  \cf4 'accepted'\cf3 ,\cf2  \cf4 'friend'\cf3 ,\cf2  1\cf3 ),\cf2\par
+\cf1   \cf3 (\cf2 2\cf3 ,\cf2  3\cf3 ,\cf2  \cf4 'pending'\cf3 ,\cf2  \cf4 'friend'\cf3 ,\cf2  0\cf3 ),\cf2\par
+\cf1   \cf3 (\cf2 3\cf3 ,\cf2  1\cf3 ,\cf2  \cf4 'accepted'\cf3 ,\cf2  \cf4 'friend'\cf3 ,\cf2  0\cf3 ),\cf2\par
+\cf1   \cf3 (\cf2 4\cf3 ,\cf2  5\cf3 ,\cf2  \cf4 'accepted'\cf3 ,\cf2  \cf4 'friend'\cf3 ,\cf2  1\cf3 ),\cf2\par
+\cf1   \cf3 (\cf2 6\cf3 ,\cf2  7\cf3 ,\cf2  \cf4 'pending'\cf3 ,\cf2  \cf4 'friend'\cf3 ,\cf2  0\cf3 ),\cf2\par
+\cf1   \cf3 (\cf2 7\cf3 ,\cf2  4\cf3 ,\cf2  \cf4 'accepted'\cf3 ,\cf2  \cf4 'friend'\cf3 ,\cf2  0\cf3 );\cf2\par
+\par
+\cf1 INSERT\cf2  \cf1 INTO\cf2  Likes\cf1  \cf3 (\cf5 user_id\cf3 ,\cf2  post_id\cf3 )\cf2\par
+\cf1 VALUES\cf2  \par
+\cf1   \cf3 (\cf2 1\cf3 ,\cf2  2\cf3 ),\cf2\par
+\cf1   \cf3 (\cf2 2\cf3 ,\cf2  3\cf3 ),\cf2\par
+\cf1   \cf3 (\cf2 4\cf3 ,\cf2  3\cf3 ),\cf2\par
+\cf1   \cf3 (\cf2 7\cf3 ,\cf2  4\cf3 ),\cf2\par
+\cf1   \cf3 (\cf2 5\cf3 ,\cf2  1\cf3 ),\cf2\par
+\cf1   \cf3 (\cf2 6\cf3 ,\cf2  2\cf3 );\cf2\par
+\par
+\par
+\cf1 INSERT\cf2  \cf1 INTO\cf2  Notifications\cf1  \cf3 (\cf5 user_id\cf3 ,\cf2  content\cf3 )\cf2\par
+\cf1 VALUES\cf2  \par
+\cf1   \cf3 (\cf2 5\cf3 ,\cf2  \cf4 'You have a new friend request.'\cf3 ),\cf2\par
+\cf1   \cf3 (\cf2 6\cf3 ,\cf2  \cf4 'Your post received a new like.'\cf3 ),\cf2\par
+\cf1   \cf3 (\cf2 8\cf3 ,\cf2  \cf4 'Your friend request has been accepted.'\cf3 ),\cf2\par
+\cf1   \cf3 (\cf2 7\cf3 ,\cf2  \cf4 'Your post received a new like.'\cf3 );\cf2\par
+\par
+  \par
+\cf1 INSERT\cf2  \cf1 INTO\cf2  Comments\cf1  \cf3 (\cf2 post_id\cf3 ,\cf2  \cf5 user_id\cf3 ,\cf2  content\cf3 ,\cf2  likes\cf3 )\cf2\par
+\cf1 VALUES\cf2  \par
+\cf1   \cf3 (\cf2 4\cf3 ,\cf2  6\cf3 ,\cf2  \cf4 'Nice post!'\cf3 ,\cf2   2\cf3 ),\cf2\par
+\cf1   \cf3 (\cf2 2\cf3 ,\cf2  7\cf3 ,\cf2  \cf4 'Great photo!'\cf3 ,\cf2   1\cf3 ),\cf2\par
+\cf1   \cf3 (\cf2 3\cf3 ,\cf2  5\cf3 ,\cf2  \cf4 'Interesting video!'\cf3 ,\cf2   3\cf3 ),\cf2\par
+\cf1   \cf3 (\cf2 4\cf3 ,\cf2  8\cf3 ,\cf2  \cf4 'Thoughtful post!'\cf3 ,\cf2 0\cf3 ),\cf2\par
+\cf1   \cf3 (\cf2 1\cf3 ,\cf2  5\cf3 ,\cf2  \cf4 'Beautiful picture!'\cf3 ,\cf2  2\cf3 );\cf0\fs36\par
+\par
+4) R&D\par
+\fs28 Changing Location:\par
+\par
+The settings are stored in an .vssettings XML file in My Documents\\SQL Server Management Studio\\Settings folder. Make sure you close SSMS before making changes to this file: SSMS writes to it when you close the application and will overwrite any changes you make. To change the My Projects folder, you are looking for this line:\par
+   <PropertyValue name="ProjectsLocation">%vsspv_user_documents%\\My\par
+   Projects</PropertyValue>\par
+The value inside is the location of the My Projects folder. Simply change the value, and the next time you open SSMS the My Projects folder will be mapped.\fs36\par
+6) Inline and Sub Queries Task:\par
+\cf2\f3\fs32 1. \f2 inventory\f3  \f2 inventory\cf0\par
+\cf6\fs19 --Inline Query\cf2\par
+\cf1 USE\cf2  inventory_inventory\par
+\cf1 select\cf2  \cf3 *\cf2  \cf1 from\cf2  employees \cf1 where\cf2  eid \cf3 IN(\cf1 select\cf2  manager_id \cf1 from\cf2  warehouses \cf1 where\cf2  warehouse_name\cf3 =\cf4 'Warehouse A'\cf3 );\cf2\par
+\cf1 select\cf2  \cf3 *\cf2  \cf1 from\cf2  suppliers \cf1 where\cf2  supplier_id \cf3 in\cf1  \cf3 (\cf1 select\cf2  supplier_id \cf1 from\cf2  order_table \cf1 where\cf2  total_amount \cf3 >\cf2  160\cf3 );\cf2\par
+\cf1 select\cf2  \cf3 *\cf2  \cf1 from\cf2  suppliers \cf1 where\cf2  supplier_id \cf3 in\cf1  \cf3 (\cf1 select\cf2  supplier_id \cf1 from\cf2  order_table \cf1 where\cf2  order_status \cf3 =\cf2  \cf4 'Processing'\cf3 );\cf2\par
+\par
+\cf6 --Sub Query\cf2\par
+\cf1 select\cf2  \cf3 *,(\cf1 select\cf2  supplier_name \cf1 from\cf2  suppliers \cf1 where\cf2  supplier_id \cf3 =\cf2 order_table\cf3 .\cf2 supplier_id \cf3 )\cf2  suplier \cf1 from\cf2  order_table \cf1 where\cf2  total_amount\cf3 >\cf2 160\cf3 ;\cf2\par
+\cf1 select\cf2  \cf3 *,(\cf1 select\cf2  ename \cf1 from\cf2  employees \cf1 where\cf2  eid\cf3 =\cf2 manager_id\cf3 )\cf2 ManagerName \cf1 from\cf2  warehouses\cf3 ;\cf2\par
+\cf1 select\cf2  \cf3 *,(\cf1 select\cf2  supplier_name \cf1 from\cf2  suppliers \cf1 where\cf2  supplier_id \cf3 =\cf2  order_table\cf3 .\cf2 supplier_id\cf3 )\cf1 AS\cf2  Supplier_Name \cf1 from\cf2  order_table\cf3 ;\par
+\cf0\f3\fs36 2.\cf2\f2\fs32 library\f3  \f2 management\cf0\f3\fs36\par
+\cf1\f2\fs19 USE\cf2  library_management\cf3 ;\cf2\par
+\cf6 --INLINE QUERY\cf2\par
+\cf1 select\cf2  \cf3 *\cf2  \cf1 from\cf2  book_table \cf1 where\cf2  genre_id \cf3 in\cf1  \cf3 (\cf1 select\cf2  genre_id \cf1 from\cf2  genre_table \cf1 where\cf2  \cf1 name\cf3 =\cf4 'Fiction'\cf3 )\cf2\par
+\cf1 select\cf2  \cf3 *\cf2  \cf1 from\cf2  book_table \cf1 where\cf2  author_id \cf3 in\cf1  \cf3 (\cf1 select\cf2  author_id \cf1 from\cf2  author_table \cf1 where\cf2  author_name\cf3 =\cf4 'Harper Lee'\cf3 )\cf2\par
+\cf1 select\cf2  \cf1 name\cf2  \cf1 from\cf2  genre_table \cf1 where\cf2  genre_id \cf3 in\cf1  \cf3 (\cf1 select\cf2  genre_id \cf1 from\cf2  book_table \cf1 where\cf2  book_id \cf3 in(\cf1 select\cf2  \cf5 MAX\cf3 (\cf2 book_id\cf3 )\cf2  \cf1 from\cf2  Loans \cf3 ));\cf2\par
+\par
+\cf6 -- SUBQUERY\cf2\par
+\cf1 select\cf2  \cf3 *,(\cf1 select\cf2  title \cf1 from\cf2  book_table \cf1 where\cf2  book_id \cf3 =\cf2  loans\cf3 .\cf2 book_id\cf3 )\cf2 BookName \cf1 from\cf2  loans\cf3 ;\cf2\par
+\cf1 select\cf2  \cf3 *,(\cf1 select\cf2  \cf1 name\cf2  \cf1 from\cf2  genre_table \cf1 where\cf2  genre_id \cf3 =\cf2  book_table\cf3 .\cf2 genre_id\cf3 )\cf2 Genre \cf1 from\cf2  book_table\cf3 ;\cf2\par
+\cf1 select\cf2  \cf3 *,(\cf1 select\cf2  \cf5 COUNT\cf3 (\cf2 1\cf3 )\cf2  \cf1 from\cf2  loans \cf1 where\cf2  member_id \cf3 =\cf2  members_table\cf3 .\cf2 member_id\cf3 )\cf5 Count\cf2  \cf1 from\cf2  members_table\cf3 ;\cf2\par
+\cf0\f3\fs36 3. \cf2\f2\fs32 social\f3  \f2 media\cf0\par
+\cf1\fs19 USE\cf2  social_media\cf3 ;\cf2\par
+\cf6 --INLINE QUERY\cf2\par
+\cf1 select\cf2  \cf3 *\cf2  \cf1 from\cf2  comments \cf1 where\cf2  \cf5 user_id\cf2  \cf3 IN(\cf1 select\cf2  \cf5 user_id\cf2  \cf1 from\cf2  users \cf1 where\cf2  username\cf3 =\cf4 'Prince789'\cf3 );\cf2\par
+\cf1 select\cf2  \cf3 *\cf2  \cf1 from\cf2  posts \cf1 where\cf2  \cf5 USER_ID\cf2  \cf3 IN\cf1  \cf3 (\cf1 select\cf2  \cf5 user_id\cf2  \cf1 from\cf2  users \cf1 where\cf2  username\cf3 =\cf4 'Prince789'\cf3 );\cf2\par
+\cf1 select\cf2  \cf5 COUNT\cf3 (\cf2 1\cf3 )\cf2  \cf1 AS\cf2  Likes \cf1 from\cf2  likes \cf1 where\cf2  post_id \cf3 IN\cf1  \cf3 (\cf1 select\cf2  post_id \cf1 from\cf2  posts \cf1 where\cf2  post_id\cf3 =\cf2 2\cf3 );\cf2\par
+\par
+\cf6 -- SUBQUERY\cf2\par
+\cf1 select\cf2  \cf3 *,(\cf1 select\cf2  content \cf1 from\cf2  posts \cf1 where\cf2  post_id \cf3 =\cf2  comments\cf3 .\cf2 post_id\cf3 )\cf2  \cf1 from\cf2  comments\cf3 ;\cf2\par
+\cf1 select\cf2  \cf3 *,(\cf1 select\cf2  \cf5 count\cf3 (\cf2 1\cf3 )\cf2  \cf1 from\cf2  likes \cf1 where\cf2  post_id \cf3 =\cf2  posts\cf3 .\cf2 post_id\cf3 )\cf2  \cf1 from\cf2  posts\cf3 ;\cf2\par
+\cf1 select\cf2  username\cf3 ,(\cf1 select\cf2  \cf5 count\cf3 (\cf2 1\cf3 )\cf2  \cf1 from\cf2  posts \cf1 where\cf2  \cf5 user_id\cf2  \cf3 =\cf2  users\cf3 .\cf5 user_id\cf3 )\cf2 PostCount \cf1 from\cf2  users\cf3 ;\cf2\par
+\cf0\fs36\par
+\cf2 7) SQL Functions:\par
+\fs28 7.1) String Functions:\par
+\f3\fs24 1)ASCII:- Returns the ASCII value for the specific character\par
+\tab\cf1\f2 SELECT\cf2  \cf5 ASCII\cf3 (\cf4 'name'\cf3 )\cf2  \cf1 AS\cf2  NumCodeOfFirstChar\cf3 ;\par
+\par
+\cf0\f3 2)REVERSE:- Reverses the characters in a string.\par
+\cf1\f2\fs19 SELECT\cf2  \cf5 REVERSE\cf3 (\cf4 'Hello, World!'\cf3 )\cf2  \cf1 AS\cf2  ReversedString\cf3 ;\cf0\f3\fs24\par
+3)CONCAT:-Adds two or more expressions together\par
+\cf1\f2\fs19 SELECT\cf2  \cf5 CONCAT\cf3 (\cf4 'SQL '\cf3 ,\cf2  \cf4 'Tutorial '\cf3 ,\cf2  \cf4 'is '\cf3 ,\cf2  \cf4 'fun!'\cf3 )\cf2  \cf1 AS\cf2  ConcatenatedString\cf3 ;\cf2\par
+\cf0\f3\fs24\par
+4)SOUNDEX:-Returns a four-character code to compare the similarity of two strings.\par
+\cf1\f2\fs19 SELECT\cf2  \cf5 SOUNDEX\cf3 (\cf4 '\f3 hello\f2 '\cf3 )\cf2  \cf1 AS\cf2  SoundexCode\cf3 ;\cf2\par
+\cf0\f3\fs24\par
+5)LEN:-Returns the number of characters in a string.\par
+\cf1\f2\fs19 SELECT\cf2  \cf5 LEN\cf3 (\cf4 'Hello, World!'\cf3 )\cf2  \cf1 AS\cf2  \cf1 Length\cf3 ;\cf2\par
+\cf0\f3\fs24\par
+6)LEFT:-Returns a specified number of characters from the beginning of a string.\par
+\cf1\f2\fs19 SELECT\cf2  \cf3 LEFT(\cf4 'Hello, World!'\cf3 ,\cf2  5\cf3 )\cf2  \cf1 AS\cf2  LeftSubstring\cf3 ;\cf2\par
+\cf0\f3\fs24\par
+7)RIGHT:-Returns a specified number of characters from the end of a string.\par
+\cf1\f2\fs19 SELECT\cf2  \cf3 RIGHT(\cf4 'Hello, World!'\cf3 ,\cf2  6\cf3 )\cf2  \cf1 AS\cf2  RightSubstring\cf3 ;\cf2\par
+\cf0\f3\fs24\par
+8)LTRIM:-Removes leading spaces from a string.\par
+\cf1\f2\fs19 SELECT\cf2  \cf5 LTRIM\cf3 (\cf4 '   Trimmed String'\cf3 )\cf2  \cf1 AS\cf2  TrimmedString\cf3 ;\cf2\par
+\cf0\f3\fs24\par
+9)RTRIM:-Removes trailing spaces from a string.\par
+\cf1\f2\fs19 SELECT\cf2  \cf5 RTRIM\cf3 (\cf4 'Trimmed String   '\cf3 )\cf2  \cf1 AS\cf2  TrimmedString\cf3 ;\cf2\par
+\cf0\f3\fs24\par
+10)SUBSTRING:-Returns a part of a string starting at a specified position with a specified length.\par
+\cf1\f2\fs19 SELECT\cf2  \cf5 SUBSTRING\cf3 (\cf4 'Hello, World!'\cf3 ,\cf2  7\cf3 ,\cf2  5\cf3 )\cf2  \cf1 AS\cf2  SubstringResult\cf3 ;\cf2\par
+\cf0\f3\fs24\par
+11)CHARINDEX:-Returns the starting position of a substring within a string.\par
+\cf1\f2\fs19 SELECT\cf2  \cf5 CHARINDEX\cf3 (\cf4 'World'\cf3 ,\cf2  \cf4 'Hello, World!'\cf3 )\cf2  \cf1 AS\cf2  SubstringPosition\cf3 ;\cf2\par
+\cf0\f3\fs24\par
+12)REPLACE:-Replaces all occurrences of a specified substring with another substring.\par
+\cf1\f2\fs19 SELECT\cf2  \cf5 REPLACE\cf3 (\cf4 'Hello, World!'\cf3 ,\cf2  \cf4 'Hello'\cf3 ,\cf2  \cf4 'Hi'\cf3 )\cf2  \cf1 AS\cf2  ReplacedString\cf3 ;\cf2\par
+\cf0\f3\fs24\par
+13)REPLICATE:-Repeats a string a specified number of times.\par
+\cf1\f2\fs19 SELECT\cf2  \cf5 REPLICATE\cf3 (\cf4 'La'\cf3 ,\cf2  3\cf3 )\cf2  \cf1 AS\cf2  RepeatedString\cf3 ;\cf2\par
+\cf0\f3\fs24\par
+14)STUFF:-Deletes a specified length of characters from a string and then inserts another string at a specified starting point.\par
+\cf1\f2\fs19 SELECT\cf2  \cf5 STUFF\cf3 (\cf4 'Hello, World!'\cf3 ,\cf2  7\cf3 ,\cf2  5\cf3 ,\cf2  \cf4 'Universe'\cf3 )\cf2  \cf1 AS\cf2  ModifiedString\cf3 ;\cf2\par
+\cf0\f3\fs24\par
+15)UPPER:-Converts all characters in a string to uppercase.\par
+\cf1\f2\fs19 SELECT\cf2  \cf5 UPPER\cf3 (\cf4 'Hello, World!'\cf3 )\cf2  \cf1 AS\cf2  UppercaseString\cf3 ;\cf2\par
+\cf0\f3\fs24\par
+16)LOWER:-Converts all characters in a string to lowercase.\par
+\cf1\f2\fs19 SELECT\cf2  \cf5 LOWER\cf3 (\cf4 'Hello, World!'\cf3 )\cf2  \cf1 AS\cf2  LowercaseString\cf3 ;\cf2\par
+\cf0\f3\fs36\par
+\cf2\f2\fs28 7.1) \f3 math\f2  Functions:\par
+\f3\fs24 1)ABS:- Returns the absolute value of a numeric expression.\par
+\cf1\f2\fs19 SELECT\cf2  \cf5 ABS\cf3 (-\cf2 5\cf3 )\cf2  \cf1 AS\cf2  AbsoluteValue\cf3 ;\cf2\par
+\cf3\fs24\par
+\cf0\f3 2)ROUND:- Rounds a numeric expression to the nearest integer, or to the specified number of decimal places.\par
+\cf1\f2\fs19 SELECT\cf2  \cf5 ROUND\cf3 (\cf2 3.14159\cf3 ,\cf2  2\cf3 )\cf2  \cf1 AS\cf2  RoundedValue\cf3 ;\cf2\par
+\cf0\f3\fs24 3)CEILING:-Returns the smallest integer greater than or equal to a numeric expression.\par
+\cf1\f2\fs19 SELECT\cf2  \cf5 CEILING\cf3 (\cf2 4.25\cf3 )\cf2  \cf1 AS\cf2  CeilingValue\cf3 ;\cf2\par
+\cf0\f3\fs24\par
+4)FLOOR:-Returns the largest integer less than or equal to a numeric expression.\par
+\cf1\f2\fs19 SELECT\cf2  \cf5 FLOOR\cf3 (\cf2 4.75\cf3 )\cf2  \cf1 AS\cf2  FloorValue\cf3 ;\cf2\par
+\cf0\f3\fs24\par
+5)POWER:-Returns the value of a numeric expression raised to the power of another numeric expression.\par
+\cf1\f2\fs19 SELECT\cf2  \cf5 POWER\cf3 (\cf2 2\cf3 ,\cf2  3\cf3 )\cf2  \cf1 AS\cf2  PowerResult\cf3 ;\cf2\par
+\cf0\f3\fs24\par
+6)SQRT:-Returns the square root of a numeric expression.\par
+\cf1\f2\fs19 SELECT\cf2  \cf5 SQRT\cf3 (\cf2 25\cf3 )\cf2  \cf1 AS\cf2  SquareRoot\cf3 ;\cf2\par
+\cf0\f3\fs24\par
+7)EXP:-Returns the exponential value of a specified number.\par
+\cf1\f2\fs19 SELECT\cf2  \cf5 EXP\cf3 (\cf2 1\cf3 )\cf2  \cf1 AS\cf2  ExponentialValue\cf3 ;\cf2\par
+\cf0\f3\fs24\par
+8)LOG:-Returns the natural logarithm of a specified number.\par
+\cf1\f2\fs19 SELECT\cf2  \cf5 LOG\cf3 (\cf2 10\cf3 )\cf2  \cf1 AS\cf2  NaturalLogarithm\cf3 ;\cf2\par
+\cf0\f3\fs24\par
+9)LOG10:-Returns the base 10 logarithm of a specified number.\par
+\cf1\f2\fs19 SELECT\cf2  \cf5 LOG10\cf3 (\cf2 100\cf3 )\cf2  \cf1 AS\cf2  LogBase10\cf3 ;\cf2\par
+\cf0\f3\fs24\par
+10)RAND:-Returns a random float value between 0 and 1.\par
+\cf1\f2\fs19 SELECT\cf2  \cf0\f3\fs24 RAND()\cf2\f2\fs19  \cf1 AS\cf2  SignValue\cf3 ;\cf2\par
+\cf0\f3\fs24\par
+11)PI:-Returns the mathematical constant Pi (\f4\lang1032\'f0).\f3\lang16393\par
+\cf1\f2\fs19 SELECT\cf2  \cf5 PI\cf3 ()\cf2  \cf1 AS\cf2  PiValue\cf3 ;\cf2\par
+\cf0\f3\fs24\par
+12)DEGREES:-Converts radians to degrees.\par
+\cf1\f2\fs19 SELECT\cf2  \cf5 DEGREES\cf3 (\cf2 1.047\cf3 )\cf2  \cf1 AS\cf2  DegreesValue\cf3 ;\cf2\par
+\cf0\f3\fs24\par
+13)RADIANS:-Converts degrees to radians.\par
+\cf1\f2\fs19 SELECT\cf2  \cf5 RADIANS\cf3 (\cf2 60\cf3 )\cf2  \cf1 AS\cf2  RadiansValue\cf3 ;\cf2\par
+\cf0\f3\fs24\par
+14)RAND() with Seed :-Returns a random float value between 0 and 1 with a specified seed for reproducibility.\par
+\cf1\f2\fs19 SELECT\cf2  \cf5 RAND\cf3 (\cf2 42\cf3 )\cf2  \cf1 AS\cf2  RandomValueWithSeed\cf3 ;\cf2\par
+\cf0\f3\fs24\par
+15)SIGN:-Returns the sign of a numeric expression (-1, 0, or 1).\par
+\cf1\f2\fs19 SELECT\cf2  \cf5 SIGN\cf3 (-\cf2 15\cf3 )\cf2  \cf1 AS\cf2  SignValue\cf3 ;\cf2\par
+\cf0\f3\fs36\par
+\fs32 7.3) date fuctions:-\par
+\par
+\cf2\fs24 1)GETDATE:- Returns the current date and time.\par
+\cf1\f2\fs19 SELECT\cf2  \cf5 GETDATE\cf3 ()\cf2  \cf1 AS\cf2  CurrentDateTime\cf3 ;\cf2\par
+\cf3\fs24\par
+\cf0\f3 2)SYSDATETIME:- Returns the current date and time with higher precision than GETDATE.\par
+\cf1\f2\fs19 SELECT\cf2  \cf5 SYSDATETIME\cf3 ()\cf2  \cf1 AS\cf2  CurrentDateTime\cf3 ;\cf2\par
+\par
+\cf0\f3\fs24 3)CONVERT:-Adds or subtracts a specified time interval from a date.\par
+\cf1\f2\fs19 SELECT\cf2  \cf5 CONVERT\cf3 (\cf1 VARCHAR\cf3 ,\cf2  \cf5 GETDATE\cf3 (),\cf2  101\cf3 )\cf2  \cf1 AS\cf2  FormattedDate\cf3 ;\cf2\par
+\cf0\f3\fs24\par
+
+\pard\sl240\slmult1 4)DATEADD:-Returns the difference between two dates.\par
+
+\pard\sa200\sl276\slmult1\cf1\f2\fs19 SELECT\cf2  \cf5 DATEADD\cf3 (\cf5 DAY\cf3 ,\cf2  7\cf3 ,\cf2  \cf5 GETDATE\cf3 ())\cf2  \cf1 AS\cf2  DateAfter7Days\cf3 ;\cf2\par
+\cf0\f3\fs24\par
+5)DATEPART:-Returns a specified part of a date.\par
+\cf1\f2\fs19 SELECT\cf2  \cf5 DATEDIFF\cf3 (\cf5 YEAR\cf3 ,\cf2  \cf4 '2000-01-01'\cf3 ,\cf2  \cf5 GETDATE\cf3 ())\cf2  \cf1 AS\cf2  YearsDifference\cf3 ;\cf2\par
+\cf0\f3\fs24\par
+6)DAY:-Returns the day of the month for a given date.\par
+\cf1\f2\fs19 SELECT\cf2  \cf5 DAY\cf3 (\cf5 GETDATE\cf3 ())\cf2  \cf1 AS\cf2  \cf5 DayOfMonth\cf3 ;\cf2\par
+\cf0\f3\fs24\par
+7)MONTH:-Returns the month for a given date.\par
+\cf1\f2\fs19 SELECT MONTH(GETDATE()) AS CurrentMonth;\par
+\cf0\f3\fs24\par
+8)YEAR:-Returns the year for a given date.\par
+\cf1\f2\fs19 SELECT\cf2  \cf5 YEAR\cf3 (\cf5 GETDATE\cf3 ())\cf2  \cf1 AS\cf2  CurrentYear\cf3 ;\cf2\par
+\cf0\f3\fs24\par
+9)FORMAT:-Formats a date or time value with the specified format.\par
+\cf1\f2\fs19 SELECT\cf2  \cf5 FORMAT\cf3 (\cf5 GETDATE\cf3 (),\cf2  \cf4 'MM/dd/yyyy'\cf3 )\cf2  \cf1 AS\cf2  FormattedDate\cf3 ;\cf2\par
+\cf0\f3\fs24\par
+10)DATENAME:-Returns a specified part of a date as a character string.\par
+\cf1\f2\fs19 SELECT\cf2  \cf5 DATENAME\cf3 (\cf1 WEEKDAY\cf3 ,\cf2  \cf5 GETDATE\cf3 ())\cf2  \cf1 AS\cf2  \cf5 DayOfWeek\cf3 ;\par
+\par
+\cf0\f1\fs36\lang9 7.4)  Advance Functions:-\par
+\cf3\f2\fs19\lang16393\par
+
+\pard\li720\sa200\sl276\slmult1\cf0\f1\fs28\lang9 1. ROW_NUMBER()\par
+Description: Assigns a unique number to each row within a partition of a result set.\par
+Query:\par
+\cf1\f2\fs19 SELECT\cf2  username\cf3 ,\cf2  email_id \cf3 ,\cf2  \cf5 ROW_NUMBER\cf3 ()\cf2  \cf1 OVER \cf3 (\cf1 ORDER\cf2  \cf1 BY\cf2  username\cf3 ,\cf2  email_id\cf3 )\cf2  \cf1 AS\cf2  RowNum \cf1 FROM\cf2   Users\cf3 ;\cf2\par
+\cf0\f1\fs28\par
+2. RANK()\par
+Description: Assigns a unique rank to each distinct row within a result set, with ties receiving the same rank.\par
+Query: \par
+\cf1\f2\fs19 SELECT\cf2  username\cf3 ,\cf2  email_id\cf3 ,\cf2  \cf5 RANK\cf3 ()\cf2  \cf1 OVER \cf3 (\cf1 ORDER\cf2  \cf1 BY\cf2  username\cf3 ,\cf2  email_id\cf3 )\cf2  \cf1 AS\cf2  RankNum \cf1 FROM\cf2  [Users]\cf3 ;\cf2\par
+\cf0\f1\fs28\par
+3. DENSE_RANK()\par
+Description: Similar to RANK(), but without gaps between rank values when there are ties.\par
+Query:\par
+\cf1\f2\fs19 SELECT\cf2  username\cf3 ,\cf2  email_id\cf3 ,\cf2  \cf5 DENSE_RANK\cf3 ()\cf2  \cf1 OVER \cf3 (\cf1 ORDER\cf2  \cf1 BY\cf2  username\cf3 ,\cf2  email_id\cf3 )\cf2  \cf1 AS\cf2  DenseRankNum \cf1 FROM\cf2  [Users]\cf3 ;\cf2\par
+\cf0\f1\fs28\par
+4. LAG()\par
+Description: Accesses data from a previous row in the result set without using a self-join.\par
+Query:\par
+\cf1\f2\fs19 SELECT\cf2  username\cf3 ,\cf2   email_id\cf3 ,\cf2  \cf5 LAG\cf3 (\cf2 email_id\cf3 )\cf2  \cf1 OVER \cf3 (\cf1 ORDER\cf2  \cf1 BY\cf2  email_id\cf3 ,\cf2  username\cf3 )\cf2  \cf1 AS\cf2  PreviousLastName \cf1 FROM\cf2  [Users]\cf3 ;\cf2\par
+\cf0\f1\fs28\par
+5. CTE (Common Table Expression)\par
+Description: Defines a temporary result set that can be referenced within a SELECT, INSERT, UPDATE, or DELETE statement.\par
+Query:\par
+
+\pard\sa200\sl276\slmult1\cf1\f2\fs19 WITH\cf2  ExpensiveProducts \cf1 AS \cf3 (\cf2\par
+    \cf1 SELECT\cf2  product_name\cf3 ,\cf2  prize\par
+    \cf1 FROM\cf2  products\par
+    \cf1 WHERE\cf2  prize \cf3 >\cf2  100\par
+\cf3 )\cf2\par
+\cf1 SELECT\cf2  \cf3 *\cf2  \cf1 FROM\cf2  ExpensiveProducts\cf3 ;\cf2\fs28\par
+\f3\lang16393     6.\cf0\f0\fs22\lang9 ISNULL\cf2\f3\fs28\lang16393\par
+\cf0\f0\fs22\lang9\tab SELECT ISNULL(NULL, 'ABC');\par
+\tab\fs32 7.\fs22 ISNUMERIC\fs32\par
+\fs22\tab SELECT ISNUMERIC(2354);\par
+\cf2\f2\fs28\lang16393\par
+\f3\fs36 7.5)\cf0\f1\lang9  Queries for above functions:-\par
+\ul\b\fs28 Inventory Database:\par
+\cf1\ulnone\b0\f2\fs19 use\cf2  inventory_management\cf3 ;\cf2\par
+\par
+\cf6 --string function\cf2\par
+\cf1 select\cf2  \cf5 CONCAT\cf3 (\cf2 ename\cf3 ,\cf4 ' '\cf3 ,\cf2 designation\cf3 )\cf2  \cf1 as\cf2  name_post \cf1 from\cf2  employees\cf3 ;\cf2\par
+\cf1 select\cf2  \cf5 LOWER\cf3 (\cf2 warehouse_name\cf3 )\cf2 warehouse_name\cf3 ,\cf5 LOWER\cf3 (\cf2 current_location\cf3 )\cf2 current_location\cf3 ,(\cf1 select\cf2  ename \cf1 from\cf2  employees \cf1 where\cf2  eid\cf3 =\cf2 manager_id\cf3 )\cf2 manager \cf1 from\cf2  warehouses\par
+\cf1 select\cf2  \cf5 lower\cf3 (\cf5 CONCAT\cf3 (\cf2 product_name\cf3 ,\cf4 ' '\cf2  \cf3 ,\cf2 catagory\cf3 ,\cf4 ' '\cf3 ,\cf4 ' '\cf3 ,\cf2 description_text\cf3 ))\cf2  \cf1 from\cf2  products\cf3 ;\cf2\par
+\par
+\cf6 --math functins\cf2\par
+\cf1 select\cf2  \cf5 ROUND\cf3 (\cf2 total_amount\cf3 ,\cf2 1\cf3 )\cf2  \cf1 from\cf2  order_table\cf3 ;\cf2\par
+\cf1 select\cf2  \cf5 abs\cf3 (-\cf2 salary\cf3 )\cf2  \cf1 from\cf2  employees\cf3 ;\cf2\par
+\cf1 select\cf2  prize\cf3 ,\cf5 SIGN\cf3 (\cf2 prize\cf3 )\cf4 'sign'\cf2   \cf1 from\cf2  products\cf3 ;\cf2\par
+\par
+\cf6 --Date fuction\cf2\par
+\cf1 select\cf2  order_status\cf3 ,\cf5 DATEDIFF\cf3 (\cf5 DAY\cf3 ,\cf2 order_datetime\cf3 ,\cf5 GETDATE\cf3 ())\cf2  \cf1 from\cf2  order_table\cf3 ;\cf2\par
+\cf1 select\cf2  product_name\cf3 ,\cf5 month\cf3 (\cf2 add_datetime\cf3 )\cf2  \cf1 from\cf2  products\cf3 ;\cf2\par
+\cf1 select\cf2  product_name\cf3 ,\cf5 FORMAT\cf3 (\cf2 add_datetime\cf3 ,\cf4 'MM/dd/yyyy'\cf3 )\cf2  \cf1 from\cf2  products\cf3 ;\cf2\par
+\par
+\cf6 --advance fuctions\cf2\par
+\cf1 select\cf2  warehouse_name\cf3 ,(\cf2 capacity\cf3 -\cf5 LAG\cf3 (\cf2 capacity\cf3 )\cf2  \cf1 over\cf3 (\cf1 order\cf2  \cf1 by\cf2  warehouse_name\cf3 ))\cf2  \cf1 as\cf2  cn \cf1 from\cf2  warehouses\cf3 ;\cf2\par
+\cf1 select\cf2  \cf5 isNull\cf3 (\cf2 capacity\cf3 -\cf5 LAG\cf3 (\cf2 capacity\cf3 )\cf2  \cf1 over\cf3 (\cf1 order\cf2  \cf1 by\cf2  warehouse_name\cf3 ),\cf2 capacity\cf3 )\cf2  \cf4 'hasprew'\cf2  \cf1 from\cf2  warehouses\cf3 ;\cf2  \par
+\par
+
+\pard\fi-142\li142\sa200\sl276\slmult1\tx426\cf0\ul\b\f1\fs28 Library Management Database:\par
+
+\pard\sa200\sl276\slmult1\cf2\ulnone\b0\f2\fs19\par
+\cf1 use\cf2  library_management\cf3 ;\cf2\par
+\cf6 --1.TABLE-auther\cf2\par
+\par
+\cf6 --string function\cf2\par
+\cf1 SELECT\cf2  \cf5 CONCAT\cf3 (\cf2 author_name\cf3 ,\cf2 nationality\cf3 )\cf2  \cf1 from\cf2  Author_Table\par
+\cf1 SELECT\cf2  \cf3 LEFT(\cf2 biography\cf3 ,\cf2 5\cf3 )\cf2  \cf1 from\cf2  Author_Table\cf3 ;\cf2\par
+\cf1 select\cf2\tab\cf5 REPLACE\cf3 (\cf2 author_name\cf3 ,\cf4 ' '\cf3 ,\cf4 '_'\cf3 )\cf2  \cf1 from\cf2  Author_Table\par
+\par
+\cf6 --date function\cf2\par
+\cf1 SELECT\cf2  \cf5 DATEDIFF\cf3 (\cf5 YEAR\cf3 ,\cf2 birthday\cf3 ,\cf5 GETDATE\cf3 ())\cf2  \cf1 from\cf2  Author_Table\par
+\cf1 selECT\cf2  \cf5 MONTH\cf3 (\cf2 birthday\cf3 )\cf2  \cf1 FROM\cf2  Author_Table\cf3 ;\cf2\par
+\cf1 selECT\cf2  \cf5 year\cf3 (\cf2 birthday\cf3 )\cf2  \cf1 FROM\cf2  Author_Table\cf3 ;\cf2\par
+\par
+\cf6 --date\cf2\par
+\par
+\cf1 SELECT\cf2  \cf5 DATEDIFF\cf3 (\cf5 MONTH\cf3 ,\cf2 loan_date\cf3 ,\cf2 return_date\cf3 )\cf2 month_diff \cf1 from\cf2  Loans\cf3 ;\cf2\par
+\cf1 SELECT\cf2  \cf5 MONTH\cf3 (\cf2 loan_date\cf3 )\cf4 'month'\cf2  \cf1 from\cf2  Loans\cf3 ;\cf2\par
+\cf1 SELECT\cf2  \cf5 year\cf3 (\cf2 return_date\cf3 )\cf4 'year'\cf2  \cf1 from\cf2  Loans\cf3 ;\cf2\par
+\par
+\cf0\ul\b\f1\fs28 Social Media App Database:\par
+\cf2\ulnone\b0\f2\fs19\par
+\cf1 use\cf2  social_media\cf3 ;\cf2\par
+\cf6 --1.TABLE-USERS\cf2\par
+\par
+\cf6 --string function\cf2\par
+\par
+\cf1 SELECT\cf2  \cf5 CONCAT\cf3 (\cf2 userName\cf3 ,\cf2  \cf4 ' '\cf3 ,\cf2  email_id\cf3 )\cf2  \cf1 AS\cf2  user_contact_info \cf1 FROM\cf2  Users\cf3 ;\cf2\par
+\cf1 SELECT\cf2  \cf3 LEFT(\cf2 userName\cf3 ,\cf2  5\cf3 )\cf2  \cf1 AS\cf2  LeftPartUserName \cf1 FROM\cf2  Users\cf3 ;\cf2\par
+\cf1 SELECT\cf2  \cf5 LEN\cf3 (\cf1 password\cf3 )\cf2  \cf1 AS\cf2  password_length \cf1 FROM\cf2  Users\cf3 ;\cf2\par
+\par
+\cf6 --numeric function\cf2\par
+\par
+\cf1 SELECT\cf2  \cf5 COUNT\cf3 (*)\cf2\par
+ \cf1 FROM\cf2  Users\cf3 ;\cf2\par
+\cf1 SELECT\cf2  \cf5 AVG\cf3 (\cf5 LEN\cf3 (\cf2 userName\cf3 ))\cf2  \cf1 AS\cf2  avg_username_length \cf1 FROM\cf2  Users\cf3 ;\cf2\par
+\cf1 SELECT\cf2  \cf5 MAX\cf3 (\cf5 user_id\cf3 )\cf2  \cf1 FROM\cf2  Users\cf3 ;\cf2\par
+\par
+\par
+\cf6 --advanced function\cf2\par
+\cf1 SELECT\cf2  \cf5 user_id\cf3 ,\cf2  \cf5 ISNULL\cf3 (\cf2 email_id\cf3 ,\cf2  \cf4 'No Email'\cf3 )\cf2  \cf1 AS\cf2  Email \cf1 FROM\cf2  Users\cf3 ;\cf2\par
+\cf1 SELECT\cf2  \cf5 user_id\cf3 ,\cf2  \cf1 password\cf3 ,\cf2  \cf5 ISNUMERIC\cf3 (\cf1 password\cf3 )\cf2  \cf1 AS\cf2  IsPasswordNumeric \cf1 FROM\cf2  Users\cf3 ;\cf2\par
+\par
+\par
+\cf6 --2.TABLE-POSTS\cf2\par
+\par
+\cf6 --string function\cf2\par
+\cf1 SELECT\cf2  \cf5 SUBSTRING\cf3 (\cf2 content\cf3 ,\cf2  1\cf3 ,\cf2  10\cf3 )\cf2  \cf1 FROM\cf2  Posts\cf3 ;\cf2\par
+\cf1 SELECT\cf2  \cf5 REPLACE\cf3 (\cf2 content\cf3 ,\cf2  \cf4 'oldWord'\cf3 ,\cf2  \cf4 'newWord'\cf3 )\cf2  \cf1 FROM\cf2  Posts\cf3 ;\cf2\par
+\cf1 SELECT\cf2  \cf5 LEN\cf3 (\cf2 content\cf3 )\cf2  \cf1 FROM\cf2  Posts\cf3 ;\cf2\par
+\par
+\cf6 --numeric function\cf2\par
+\cf1 SELECT\cf2  \cf5 COUNT\cf3 (*)\cf2\par
+ \cf1 FROM\cf2  Posts\cf3 ;\cf2\par
+\cf1 SELECT\cf2  \cf5 MAX\cf3 (\cf5 LEN\cf3 (\cf2 content\cf3 ))\cf2  \cf1 FROM\cf2  Posts\cf3 ;\cf2\par
+\par
+\cf6 --date function\cf2\par
+\cf1 SELECT\cf2  post_id\cf3 ,\cf2  created_at\cf3 ,\cf2  \cf5 DATEADD\cf3 (\cf5 day\cf3 ,\cf2  10\cf3 ,\cf2  created_at\cf3 )\cf2  \cf1 AS\cf2  DatePlus10Days \cf1 FROM\cf2  Posts\cf3 ;\cf2\par
+\cf1 SELECT\cf2  \cf5 YEAR\cf3 (\cf2 created_at\cf3 )\cf2  \cf1 FROM\cf2  Posts\cf3 ;\cf2\par
+\par
+\cf6 --advanced function\cf2\par
+\cf1 SELECT\cf2  post_id\cf3 ,\cf2  created_at\cf3 ,\cf2  \cf5 RANK\cf3 ()\cf2  \cf1 OVER \cf3 (\cf1 ORDER\cf2  \cf1 BY\cf2  created_at \cf1 DESC\cf3 )\cf2  \cf1 AS\cf2  recent_rank \cf1 FROM\cf2  Posts\cf3 ;\cf2\par
+\cf1 SELECT\cf2  \cf5 user_id\cf3 ,\cf2  \cf5 COUNT\cf3 (*)\cf2\par
+ \cf1 AS\cf2  total_posts \cf1 FROM\cf2  Posts \cf1 GROUP\cf2  \cf1 BY\cf2  \cf5 user_id\cf3 ;\cf2\par
+\cf1 SELECT\cf2  \cf5 user_id\cf3 ,\cf2  \cf5 MIN\cf3 (\cf2 created_at\cf3 )\cf2  \cf1 AS\cf2  first_post_date \cf1 FROM\cf2  Posts \cf1 GROUP\cf2  \cf1 BY\cf2  \cf5 user_id\cf3 ;\cf2\par
+\par
+\par
+\lang16393\par
+\cf0\f3\fs24\par
+}
+ 
